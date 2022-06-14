@@ -6,9 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: 'splash',
+    initialRoute: 'main',
     routes: {
       'splash': (context) => const SplashScreen(),
+      'main': (context) => const MainScreen(),
     },
     title: 'Burada Evsiz Var',
     theme: ThemeData(
