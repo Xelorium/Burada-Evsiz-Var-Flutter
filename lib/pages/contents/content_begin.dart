@@ -5,35 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-class SplashContent extends StatefulWidget {
-  const SplashContent({Key? key}) : super(key: key);
+class BeginContent extends StatefulWidget {
+  const BeginContent({Key? key}) : super(key: key);
 
   @override
-  State<SplashContent> createState() => _SplashContentState();
+  State<BeginContent> createState() => _BeginContentState();
 }
 
-class _SplashContentState extends State<SplashContent> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    bool isLoggedIn = false;
-
-    if (isLoggedIn) {
-      // FunctionalTimer().setTimerAndGo(isLoggedIn: isLoggedIn, context: context, screen: MainScreen());
-    } else {
-      FunctionalTimer().setTimerAndGo(
-          isLoggedIn: isLoggedIn,
-          context: context,
-          screen: const BeginScreen());
-    }
-
-    // final navigator = Navigator.of(context);
-    // navigator.pushReplacement(
-    //     MaterialPageRoute(builder: (context) => const BeginScreen()));
-  }
-
+class _BeginContentState extends State<BeginContent> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -81,26 +60,26 @@ class _SplashContentState extends State<SplashContent> {
                 ],
               ),
 
-              Text("Phronesis Software",
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.brown,
-                      fontFamily: GoogleFonts.grenze().fontFamily)),
-              // RichText(
-              //     text: TextSpan(children: [
-              //       TextSpan(
-              //           text: 'Made by \t',
-              //           style: TextStyle(fontSize: 11.sp, color: Colors.black)),
-              //       TextSpan(
-              //           text: 'Phronesis Software',
-              //           style: TextStyle(
-              //               fontSize: 15.sp,
-              //               fontWeight: FontWeight.bold,
-              //               color: Colors.brown,
-              //               fontFamily: GoogleFonts.grenze().fontFamily)),
-              //     ]))
-              // Text("Made by Phronesis Software", style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold),),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12), // <-- Radius
+                    ),
+                  ),
+                  onPressed: () {
+                    FunctionalTimer().pageGoTo(
+                        context: context, screen: const AboutUsScreen());
+                  },
+                  child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
+                      child: Text(
+                        "Başlayın",
+                        style: TextStyle(
+                          fontSize: 19.sp,
+                        ),
+                      ))),
+
             ],
           ),
         ),
