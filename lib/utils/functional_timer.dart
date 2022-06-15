@@ -17,10 +17,10 @@ class FunctionalTimer {
         );
       });
     } else {
-      Timer(const Duration(seconds: 3), () {
+      Timer(const Duration(milliseconds: 500), () {
         final navigator = Navigator.of(context);
         navigator.pushReplacement(
-          PageTransition(child: screen, type: PageTransitionType.rightToLeft),
+          PageTransition(child: screen, type: PageTransitionType.fade),
         );
       });
     }

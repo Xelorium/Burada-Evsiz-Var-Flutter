@@ -1,4 +1,5 @@
 import 'package:burada_evsiz_var/pages/pages_controller.dart';
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/curved_shape.dart';
 import 'package:burada_evsiz_var/utils/functional_timer.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _BeginContentState extends State<BeginContent> {
         const MainCurvedShape(),
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 7.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -31,54 +32,50 @@ class _BeginContentState extends State<BeginContent> {
                     "assets/bev_logo.png",
                     fit: BoxFit.contain,
                   )),
-              Column(
-                children: [
-                  Text("B.E.V",
-                      style: TextStyle(
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: const Offset(3, 5),
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 15,
-                          )
-                        ],
-                        fontSize: 21.sp,
-                        fontWeight: FontWeight.w900,
-                      )),
-                  Text("Burada Evsiz Var",
-                      style: TextStyle(
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: const Offset(3, 5),
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 15,
-                          )
-                        ],
-                        fontSize: 21.sp,
-                        fontWeight: FontWeight.w900,
-                      )),
-                ],
-              ),
 
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // <-- Radius
-                    ),
-                  ),
-                  onPressed: () {
-                    FunctionalTimer().pageGoTo(
-                        context: context, screen: const AboutUsScreen());
-                  },
-                  child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
-                      child: Text(
-                        "Başlayın",
-                        style: TextStyle(
-                          fontSize: 19.sp,
-                        ),
-                      ))),
+              Text("BURADA EVSİZ VAR",
+                  style: TextStyle(
+                    color: Palette.appColor,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: const Offset(2, 4),
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                      )
+                    ],
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w900,
+                  )),
+
+              Text("Hoşgeldin.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 21.sp,
+                    fontWeight: FontWeight.w900,
+                  )),
+
+              // Container(
+              //   alignment: Alignment.bottomCenter,
+              //   child: ElevatedButton(
+              //       style: ElevatedButton.styleFrom(
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(12), // <-- Radius
+              //         ),
+              //       ),
+              //       onPressed: () {
+              //         FunctionalTimer().pageGoTo(
+              //             context: context, screen: const AboutUsScreen());
+              //       },
+              //       child: Container(
+              //           padding:
+              //               EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
+              //           child: Text(
+              //             "Başlayın",
+              //             style: TextStyle(
+              //               fontSize: 19.sp,
+              //             ),
+              //           ))),
+              // ),
 
             ],
           ),

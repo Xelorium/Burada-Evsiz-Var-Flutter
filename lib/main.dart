@@ -8,6 +8,9 @@ import 'package:sizer/sizer.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Palette.appColor, //or set color with: Color(0xFF0000FF)
+  ));
   runApp(const BuradaEvsizVar());
 
 }
@@ -25,7 +28,6 @@ class BuradaEvsizVar extends StatelessWidget {
           routes: {
             'splash': (context) => const SplashScreen(),
             'begin': (context) => const BeginScreen(),
-            'about_us': (context) => const AboutUsScreen(),
             'login': (context) => const LoginScreen(),
           },
           title: 'Burada Evsiz Var',

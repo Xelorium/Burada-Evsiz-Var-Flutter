@@ -1,4 +1,6 @@
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class MainCurvedShape extends StatelessWidget {
   const MainCurvedShape({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class MainCurvedShape extends StatelessWidget {
           clipper: MainWaveClipper(),
           child: Container(
             color: Theme.of(context).primaryColor,
-            height: MediaQuery.of(context).size.height / 3,
+            height: 34.h,
           ),
         )
       ],
@@ -63,10 +65,10 @@ class AccentCurvedShape extends StatelessWidget {
       children: [
 
         ClipPath(
-          clipper: AccentWaveClipper(),
+          clipper: MainWaveClipper(),
           child: Container(
-            color: Theme.of(context).primaryColor,
-            height: MediaQuery.of(context).size.height / 3,
+            color: Palette.appColor.shade700,
+            height: 34.h,
           ),
         )
       ],
@@ -82,7 +84,7 @@ class AccentWaveClipper extends CustomClipper<Path> {
     path.lineTo(0, size.height);
     var firstStart = Offset(size.width / 5, size.height);
     //1. nokta
-    var firstEnd = Offset(size.width / 5, size.height - 50.0);
+    var firstEnd = Offset(size.width / 2.25, size.height - 50.0);
     //2. nokta
 
     path.quadraticBezierTo(

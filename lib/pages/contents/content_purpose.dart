@@ -1,16 +1,17 @@
 import 'package:burada_evsiz_var/utils/color_palette.dart';
-import 'package:burada_evsiz_var/utils/curved_shape.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class AboutUsContent extends StatefulWidget {
-  const AboutUsContent({Key? key}) : super(key: key);
+import '../../utils/curved_shape.dart';
+
+class PurposeContent extends StatefulWidget {
+  const PurposeContent({Key? key}) : super(key: key);
 
   @override
-  State<AboutUsContent> createState() => _AboutUsContentState();
+  State<PurposeContent> createState() => _PurposeContentState();
 }
 
-class _AboutUsContentState extends State<AboutUsContent> {
+class _PurposeContentState extends State<PurposeContent> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -43,7 +44,7 @@ class _AboutUsContentState extends State<AboutUsContent> {
                       )
                     ],
                   )),
-              Text("Biz kimiz?", style: TextStyle(fontSize: 20.sp, color: Palette.appColor),),
+              Text("Uygulamanın amacı nedir?", style: TextStyle(fontSize: 20.sp, color: Palette.appColor),),
               SingleChildScrollView(
                 child: Container(
                     child: const Text("Uzun YAZI")),

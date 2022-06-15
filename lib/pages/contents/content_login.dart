@@ -16,8 +16,7 @@ class _LoginContentState extends State<LoginContent> {
       children: [
         const MainCurvedShape(),
         Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
+          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 7.w),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
