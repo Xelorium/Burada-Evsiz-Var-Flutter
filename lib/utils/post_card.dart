@@ -32,6 +32,16 @@ class CreatePostCard extends StatelessWidget {
                       Text(gonderiAciklamasi)
                     ],
                   ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                  ),
+                  child: Image(
+                    image: NetworkImage('https://www.oyunturu.org/dosya/img/hobo.webp'),
+                  ),
                 )
               ]
           ),

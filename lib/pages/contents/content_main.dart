@@ -1,4 +1,6 @@
-import 'package:burada_evsiz_var/utils/bottom_navigation_bar.dart';
+import 'package:burada_evsiz_var/pages/contents/content_evsizekleme.dart';
+import 'package:burada_evsiz_var/pages/contents/content_evsizlisteleme.dart';
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/post_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,22 +11,18 @@ class MainsContent extends StatefulWidget {
   @override
   State<MainsContent> createState() => _MainsContentState();
 }
-int _selectedIndex = 0;
 class _MainsContentState extends State<MainsContent> {
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   static const List<Widget> _pageOptions = <Widget>[
-
     MainBodyContent(),
-
-    Text(
-      'Evsiz Ekleme Ekranı',
-      style: optionStyle,
-    ),
-    Text(
-      'Evsiz Listeleme Ekranı',
-      style: optionStyle,
-    ),
+    EvsizeklemeContent(),
+    EvsizlistContent(),
   ];
 
   @override
@@ -42,7 +40,26 @@ class _MainsContentState extends State<MainsContent> {
         child: _pageOptions.elementAt(_selectedIndex),
       ),
       
-      bottomNavigationBar: BottomNavigationBarPhronesis(),
+      bottomNavigationBar: BottomNavigationBar(
+        iconSize: 30.0,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/images/location.png'),),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_sharp),
+            label: '',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Palette.accentAppColor,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
@@ -57,8 +74,8 @@ class MainBodyContent extends StatefulWidget {
 class _MainBodyContentState extends State<MainBodyContent> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
+    return Container(
+      child: ListView(
         children: [
           CreatePostCard(gonderiAciklamasi: 'ADAMI BÖYLE'),
           CreatePostCard(gonderiAciklamasi: 'ÇATIR ÇUTUR',),
@@ -68,3 +85,4 @@ class _MainBodyContentState extends State<MainBodyContent> {
     );
   }
 }
+
