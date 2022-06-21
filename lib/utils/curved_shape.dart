@@ -9,14 +9,17 @@ class MainCurvedShape extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-
+        Container(
+          height: 100.h,
+          color: Colors.grey.shade100,
+        ),
         ClipPath(
           clipper: MainWaveClipper(),
           child: Container(
             color: Theme.of(context).primaryColor,
             height: 34.h,
           ),
-        )
+        ),
       ],
     );
   }
@@ -28,18 +31,18 @@ class MainWaveClipper extends CustomClipper<Path> {
     debugPrint(size.width.toString());
     var path = Path();
     path.lineTo(0, size.height);
-    var firstStart = Offset(size.width / 5, size.height);
+    var firstStart = Offset(size.width / 10, size.height);
     //1. nokta
-    var firstEnd = Offset(size.width / 2.25, size.height - 50.0);
+    var firstEnd = Offset(size.width / 2.25, size.height - 25.0);
     //2. nokta
 
     path.quadraticBezierTo(
         firstStart.dx, firstStart.dy, firstEnd.dx, firstEnd.dy);
 
     var secondStart =
-    Offset(size.width - (size.width / 3.24), size.height - 105);
+        Offset(size.width - (size.width / 3.20), size.height - 50);
     //3. nokta
-    var secondEnd = Offset(size.width, size.height - 10);
+    var secondEnd = Offset(size.width, size.height);
     //4. nokta
 
     path.quadraticBezierTo(
@@ -63,9 +66,12 @@ class AccentCurvedShape extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-
+        Container(
+          height: 100.h,
+          color: Colors.grey.shade100,
+        ),
         ClipPath(
-          clipper: MainWaveClipper(),
+          clipper: AccentWaveClipper(),
           child: Container(
             color: Palette.appColor.shade700,
             height: 34.h,
@@ -82,18 +88,18 @@ class AccentWaveClipper extends CustomClipper<Path> {
     debugPrint(size.width.toString());
     var path = Path();
     path.lineTo(0, size.height);
-    var firstStart = Offset(size.width / 5, size.height);
+    var firstStart = Offset(size.width / 10, size.height);
     //1. nokta
-    var firstEnd = Offset(size.width / 2.25, size.height - 50.0);
+    var firstEnd = Offset(size.width / 2.25, size.height - 25.0);
     //2. nokta
 
     path.quadraticBezierTo(
         firstStart.dx, firstStart.dy, firstEnd.dx, firstEnd.dy);
 
     var secondStart =
-    Offset(size.width - (size.width / 3.24), size.height - 105);
+        Offset(size.width - (size.width / 3.20), size.height - 50);
     //3. nokta
-    var secondEnd = Offset(size.width, size.height - 10);
+    var secondEnd = Offset(size.width, size.height);
     //4. nokta
 
     path.quadraticBezierTo(
@@ -109,5 +115,3 @@ class AccentWaveClipper extends CustomClipper<Path> {
     return false;
   }
 }
-
-

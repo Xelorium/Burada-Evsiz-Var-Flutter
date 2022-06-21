@@ -12,7 +12,6 @@ void main() {
     statusBarColor: Palette.appColor, //or set color with: Color(0xFF0000FF)
   ));
   runApp(const BuradaEvsizVar());
-
 }
 
 class BuradaEvsizVar extends StatelessWidget {
@@ -33,11 +32,10 @@ class BuradaEvsizVar extends StatelessWidget {
           title: 'Burada Evsiz Var',
           theme: ThemeData(
             primarySwatch: Palette.appColor,
-            fontFamily: GoogleFonts.righteous().fontFamily,
+            fontFamily: GoogleFonts.openSans().fontFamily,
           ),
         );
       },
     );
   }
 }
-

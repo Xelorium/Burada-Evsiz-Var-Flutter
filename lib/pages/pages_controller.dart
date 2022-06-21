@@ -4,7 +4,10 @@ import 'package:burada_evsiz_var/pages/contents/content_login.dart';
 import 'package:burada_evsiz_var/pages/contents/content_purpose.dart';
 import 'package:burada_evsiz_var/pages/contents/content_splash.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
+import 'package:burada_evsiz_var/utils/functional_timer.dart';
+import 'package:coast/coast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -34,10 +37,19 @@ class BeginScreen extends StatefulWidget {
 class _BeginScreenState extends State<BeginScreen> {
   final pvController = PageController();
   bool isLastPage = false;
+  int currentPage = 0;
+
+  final _beaches = [
+    Beach(builder: (context) => const BeginContent()),
+    Beach(builder: (context) => const AboutUsContent()),
+    Beach(builder: (context) => const PurposeContent()),
+  ];
+
+  final _coastController = CoastController();
 
   @override
   void dispose() {
-    pvController.dispose();
+    _coastController.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -48,39 +60,49 @@ class _BeginScreenState extends State<BeginScreen> {
       body: SafeArea(
           child: Container(
               padding: EdgeInsets.only(bottom: 8.h),
-              child: PageView(
+              child: Coast(
                 onPageChanged: (index) {
-                  setState(() => isLastPage = index == 2);
+                  setState(() {
+                    currentPage = index;
+                    isLastPage = index == 2;
+                  });
                 },
-                controller: pvController,
-                children: const [
-                  BeginContent(),
-                  AboutUsContent(),
-                  PurposeContent(),
+                beaches: _beaches,
+                controller: _coastController,
+                observers: [
+                  CrabController(),
                 ],
               ))),
       bottomSheet: isLastPage
-          ? Container(
-              color: Palette.appColor,
-              height: 8.h,
-              padding: EdgeInsets.symmetric(horizontal: 2.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "BAŞLAYIN",
-                        style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      )),
-                ],
+          ? FadeIn(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn,
+              child: SizedBox(
+                height: 8.h,
+                child: Material(
+                  color: Palette.appColor,
+                  child: InkWell(
+                    onTap: () {
+                      FunctionalTimer().pagePushTo(
+                          context: context, screen: const LoginScreen());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "BAŞLAYIN",
+                          style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
             )
           : Container(
-              color: Palette.appColor.shade700,
               height: 8.h,
               padding: EdgeInsets.symmetric(horizontal: 2.w),
               child: Row(
@@ -88,7 +110,8 @@ class _BeginScreenState extends State<BeginScreen> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        pvController.animateToPage(3,
+                        _coastController.animateTo(
+                            beach: 3,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       },
@@ -98,22 +121,26 @@ class _BeginScreenState extends State<BeginScreen> {
                             TextStyle(color: Colors.black54, fontSize: 12.sp),
                       )),
                   Center(
-                    child: SmoothPageIndicator(
+                    child: AnimatedSmoothIndicator(
                       onDotClicked: (index) {
-                        pvController.animateToPage(index,
+                        _coastController.animateTo(
+                            beach: index,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       },
-                      controller: pvController,
                       count: 3,
-                      effect: const WormEffect(activeDotColor: Palette.appColor, dotColor: Colors.black26),
+                      effect: const WormEffect(
+                          activeDotColor: Palette.appColor,
+                          dotColor: Colors.black26),
+                      activeIndex: currentPage,
                     ),
                   ),
                   TextButton(
                       onPressed: () {
-                        pvController.nextPage(
+                        _coastController.animateTo(
+                            beach: currentPage + 1,
                             duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
+                            curve: Curves.easeIn);
                       },
                       child: Text(
                         "İleri",
@@ -124,36 +151,6 @@ class _BeginScreenState extends State<BeginScreen> {
               ),
             ),
     );
-  }
-}
-
-class AboutUsScreen extends StatefulWidget {
-  const AboutUsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AboutUsScreen> createState() => _AboutUsScreenState();
-}
-
-class _AboutUsScreenState extends State<AboutUsScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: AboutUsContent()),
-    );
-  }
-}
-
-class PurposeScreen extends StatefulWidget {
-  const PurposeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<PurposeScreen> createState() => _PurposeScreenState();
-}
-
-class _PurposeScreenState extends State<PurposeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: const PurposeContent());
   }
 }
 

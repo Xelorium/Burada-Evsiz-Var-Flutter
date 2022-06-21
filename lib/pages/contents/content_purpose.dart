@@ -1,4 +1,5 @@
 import 'package:burada_evsiz_var/utils/color_palette.dart';
+import 'package:coast/coast.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -12,13 +13,15 @@ class PurposeContent extends StatefulWidget {
 }
 
 class _PurposeContentState extends State<PurposeContent> {
+  String den =
+      'Yönetim kurulu, dernek tüzüğüne göre genel kurula katılma hakkı bulunan üyelerin listesini düzenler. Genel kurula katılma hakkı bulunan üyeler, en az onbeş gün önceden, toplantının günü, saati, yeri ve gündemi en az bir gazetede veya derneğin internet sayfasında ilan edilmek, yazılı olarak bildirilmek, üyenin bildirdiği elektronik posta adresine ya da iletişim numarasına mesaj gönderilmek veya mahalli yayın araçları kullanılmak suretiyle toplantıya çağrılır. Bu çağrıda, çoğunluk sağlanamaması sebebiyle toplantı yapılamazsa, ikinci toplantının hangi gün, saat ve yerde yapılacağı da belirtilir. İlk toplantı ile ikinci toplantı arasındaki süre yedi günden az, altmış günden fazla olamaz. Toplantı, çoğunluk sağlanamaması sebebinin dışında başka bir nedenle geri bırakılırsa, bu durum geri bırakma sebepleri de belirtilmek suretiyle, ilk toplantı için yapılan çağrı usulüne uygun olarak üyelere duyurulur. İkinci toplantının geri bırakma tarihinden itibaren en geç altı ay içinde yapılması zorunludur. Üyeler ikinci toplantıya, birinci fıkrada belirtilen esaslara göre yeniden çağrılır. Genel kurul toplantısı bir defadan fazla geri bırakılamaz.';
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         const AccentCurvedShape(),
         Container(
-          padding: EdgeInsets.only(left: 7.w, right: 7.w, bottom: 10.h ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -26,28 +29,45 @@ class _PurposeContentState extends State<PurposeContent> {
                   alignment: Alignment.topCenter,
                   height: 20.h,
                   child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                            color: Palette.appColor,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(25),
-                                bottomRight: Radius.circular(25))),
+                          color: Palette.appColor,
+                        ),
                         height: 12.h,
-                        width: 75.w,
+                        width: double.infinity,
                       ),
-                      SizedBox(
-                        height: 20.h,
-                        width: 75.w,
-                        child:
-                        Image.asset("assets/bev_logo.png", fit: BoxFit.contain),
+                      Crab(
+                        tag: 'logo',
+                        child: Hero(
+                          tag: 'logo',
+                          child: SizedBox(
+                            height: 20.h,
+                            width: 75.w,
+                            child: Image.asset("assets/bev_logo.png",
+                                fit: BoxFit.contain),
+                          ),
+                        ),
                       )
                     ],
                   )),
-              Text("Uygulamanın amacı nedir?", style: TextStyle(fontSize: 20.sp, color: Palette.appColor),),
-              SingleChildScrollView(
-                child: Container(
-                    child: const Text("Uzun YAZI")),
+              SizedBox(
+                height: 1.h,
+              ),
+              Text(
+                "Uygulamanın amacı nedir?",
+                style: TextStyle(fontSize: 20.sp, color: Palette.appColor),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(den),
+                ),
               ),
               // ElevatedButton(onPressed: (){}, child: Text("Devam Et"))
             ],
