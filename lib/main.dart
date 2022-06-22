@@ -28,6 +28,7 @@ class BuradaEvsizVar extends StatelessWidget {
             'splash': (context) => const SplashScreen(),
             'begin': (context) => const BeginScreen(),
             'login': (context) => const LoginScreen(),
+            'main': (context) => const MainScreen(),
           },
           title: 'Burada Evsiz Var',
           theme: ThemeData(
