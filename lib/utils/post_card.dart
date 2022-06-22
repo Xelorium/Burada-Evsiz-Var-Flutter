@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CreatePostCard extends StatelessWidget {
-
   final String gonderiAciklamasi;
 
   const CreatePostCard({super.key, required this.gonderiAciklamasi});
@@ -28,9 +27,7 @@ class CreatePostCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Row(
-                    children: [
-                      Text(gonderiAciklamasi)
-                    ],
+                    children: [Text(gonderiAciklamasi)],
                   ),
                 ),
                 Container(
@@ -40,11 +37,11 @@ class CreatePostCard extends StatelessWidget {
                     color: Colors.green,
                   ),
                   child: Image(
-                    image: NetworkImage('https://www.oyunturu.org/dosya/img/hobo.webp'),
+                    image: NetworkImage(
+                        'https://www.oyunturu.org/dosya/img/hobo.webp'),
                   ),
                 )
-              ]
-          ),
+              ]),
         ),
       ),
     );

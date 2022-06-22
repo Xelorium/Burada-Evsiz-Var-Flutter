@@ -17,5 +17,4 @@ void main() {
       fontFamily: GoogleFonts.inter().fontFamily,
     ),
   ));
-
 }
