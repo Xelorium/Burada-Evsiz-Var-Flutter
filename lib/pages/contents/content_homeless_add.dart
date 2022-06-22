@@ -36,7 +36,7 @@ class _EvsizeklemeContentState extends State<EvsizeklemeContent> {
                 children: [
                   IconButton(
                     onPressed: () => {},
-                    icon: Image.asset('assets/images/location.png'),
+                    icon: Image.asset('assets/location.png'),
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
