@@ -31,7 +31,7 @@ class _ListElementCreatorState extends State<ListElementCreator> {
                 width: 40,
                 height: 40,
                 child: Image(
-                  image: AssetImage('assets/images/location.png'),
+                  image: AssetImage('assets/location.png'),
                 ),
               ),
               SizedBox(

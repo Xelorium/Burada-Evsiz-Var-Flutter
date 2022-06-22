@@ -1,18 +1,18 @@
-import 'package:burada_evsiz_var/pages/contents/content_evsizekleme.dart';
-import 'package:burada_evsiz_var/pages/contents/content_evsizlisteleme.dart';
+import 'package:burada_evsiz_var/pages/contents/content_homeless_add.dart';
+import 'package:burada_evsiz_var/pages/contents/content_homeless_list.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/post_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MainsContent extends StatefulWidget {
-  const MainsContent({Key? key}) : super(key: key);
+class MainContent extends StatefulWidget {
+  const MainContent({Key? key}) : super(key: key);
 
   @override
-  State<MainsContent> createState() => _MainsContentState();
+  State<MainContent> createState() => _MainContentState();
 }
 
-class _MainsContentState extends State<MainsContent> {
+class _MainContentState extends State<MainContent> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -36,7 +36,7 @@ class _MainsContentState extends State<MainsContent> {
         elevation: 0.5,
         centerTitle: true,
         title: Image.asset(
-          'assets/images/BevLogo_ico.png',
+          'assets/bev_logo.png',
           fit: BoxFit.cover,
           scale: 8.5,
         ),
@@ -53,7 +53,7 @@ class _MainsContentState extends State<MainsContent> {
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
-              AssetImage('assets/images/location.png'),
+              AssetImage('assets/location.png'),
             ),
             label: '',
           ),
