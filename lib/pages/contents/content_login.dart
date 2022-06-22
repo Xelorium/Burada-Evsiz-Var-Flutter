@@ -1,5 +1,7 @@
+import 'package:burada_evsiz_var/pages/pages_controller.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/curved_shape.dart';
+import 'package:burada_evsiz_var/utils/functional_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -102,7 +104,11 @@ class _LoginContentState extends State<LoginContent> {
                         borderRadius: BorderRadius.circular(0), // <-- Radius
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+
+                      FunctionalTimer().pagePushTo(context: context, screen: const MainScreen());
+
+                    },
                     child: Container(
                         width: double.infinity,
                         padding: EdgeInsets.symmetric(vertical: 2.h),

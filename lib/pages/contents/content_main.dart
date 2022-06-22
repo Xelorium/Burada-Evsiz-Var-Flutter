@@ -1,7 +1,7 @@
 import 'package:burada_evsiz_var/pages/contents/content_homeless_add.dart';
 import 'package:burada_evsiz_var/pages/contents/content_homeless_list.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
-import 'package:burada_evsiz_var/utils/post_card.dart';
+import 'package:burada_evsiz_var/pages/visualitems/post_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -49,17 +49,17 @@ class _MainContentState extends State<MainContent> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '',
+            label: 'Anasayfa',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage('assets/location.png'),
             ),
-            label: '',
+            label: 'Ekle',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet_sharp),
-            label: '',
+            label: 'Liste',
           ),
         ],
         currentIndex: _selectedIndex,

@@ -1,5 +1,5 @@
 import 'package:burada_evsiz_var/utils/color_palette.dart';
-import 'package:burada_evsiz_var/utils/list_element.dart';
+import 'package:burada_evsiz_var/pages/visualitems/list_element.dart';
 import 'package:flutter/material.dart';
 
 class EvsizlistContent extends StatefulWidget {
