@@ -11,6 +11,7 @@ class MainsContent extends StatefulWidget {
   @override
   State<MainsContent> createState() => _MainsContentState();
 }
+
 class _MainsContentState extends State<MainsContent> {
   int _selectedIndex = 0;
 
@@ -19,6 +20,7 @@ class _MainsContentState extends State<MainsContent> {
       _selectedIndex = index;
     });
   }
+
   static const List<Widget> _pageOptions = <Widget>[
     MainBodyContent(),
     EvsizeklemeContent(),
@@ -33,13 +35,15 @@ class _MainsContentState extends State<MainsContent> {
         backgroundColor: Colors.grey[100],
         elevation: 0.5,
         centerTitle: true,
-        title: Image.asset('assets/images/BevLogo_ico.png', fit: BoxFit.cover, scale: 8.5,),
+        title: Image.asset(
+          'assets/images/BevLogo_ico.png',
+          fit: BoxFit.cover,
+          scale: 8.5,
+        ),
       ),
-
       body: Center(
         child: _pageOptions.elementAt(_selectedIndex),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30.0,
         items: const <BottomNavigationBarItem>[
@@ -48,7 +52,9 @@ class _MainsContentState extends State<MainsContent> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/images/location.png'),),
+            icon: ImageIcon(
+              AssetImage('assets/images/location.png'),
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
@@ -78,11 +84,14 @@ class _MainBodyContentState extends State<MainBodyContent> {
       child: ListView(
         children: [
           CreatePostCard(gonderiAciklamasi: 'ADAMI BÖYLE'),
-          CreatePostCard(gonderiAciklamasi: 'ÇATIR ÇUTUR',),
-          CreatePostCard(gonderiAciklamasi: 'SİKERLER',)
+          CreatePostCard(
+            gonderiAciklamasi: 'ÇATIR ÇUTUR',
+          ),
+          CreatePostCard(
+            gonderiAciklamasi: 'SİKERLER',
+          )
         ],
       ),
     );
   }
 }
-

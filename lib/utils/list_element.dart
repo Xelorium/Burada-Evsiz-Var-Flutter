@@ -12,34 +12,48 @@ class ListElementCreator extends StatefulWidget {
 class _ListElementCreatorState extends State<ListElementCreator> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(239, 230, 230, 1),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        width: double.infinity,
-        height: 50,
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 10,),
-              width: 40,
-              height: 40,
-              child: Image(image: AssetImage('assets/images/location.png'),
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(239, 230, 230, 1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          width: double.infinity,
+          height: 50,
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                width: 40,
+                height: 40,
+                child: Image(
+                  image: AssetImage('assets/images/location.png'),
+                ),
               ),
-            ),
-            Container(
-              width: 280,
-              child: Text(
-                widget.konumVerisi,
-                textAlign: TextAlign.left,
+              SizedBox(
+                width: 5,
               ),
-            ),
-          ],
+              Container(
+                width: 280,
+                child: Text(
+                  widget.konumVerisi,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      onTap: () {},
+      borderRadius: BorderRadius.circular(8),
+      splashColor: Color.fromRGBO(239, 230, 230, 1),
+      focusColor: Color.fromRGBO(239, 230, 230, 1),
+      hoverColor: Color.fromRGBO(239, 230, 230, 1),
+      highlightColor: Color.fromRGBO(239, 230, 230, 1),
     );
   }
 }

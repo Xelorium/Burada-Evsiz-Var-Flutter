@@ -1,7 +1,6 @@
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/list_element.dart';
 import 'package:flutter/material.dart';
-
-import '../../utils/color_palette.dart';
 
 class EvsizlistContent extends StatefulWidget {
   const EvsizlistContent({Key? key}) : super(key: key);
@@ -25,45 +24,52 @@ class _EvsizlistContentState extends State<EvsizlistContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.all(25),
-        height: 800,
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+      ),
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              children: [
-                Container(
-                  width: 250,
-                  child: TextField(
-                    controller: _controller,
-                    onChanged: (value) {
-                      // Call setState to update the UI
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Search',
-                      border: const OutlineInputBorder(),
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: _controller.text.isEmpty
-                          ? null // Show nothing if the text field is empty
-                          : IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: _clearTextField,
-                            ),
+            Container(
+              width: double.infinity,
+              height: 100,
+              decoration: BoxDecoration(color: Colors.transparent),
+              child: Row(
+                children: [
+                  SizedBox(
+                    child: TextField(
+                      controller: _controller,
+                      onChanged: (value) {
+                        // Call setState to update the UI
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Evsiz arayın..',
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _controller.text.isEmpty
+                            ? null // Show nothing if the text field is empty
+                            : IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: _clearTextField,
+                              ),
+                      ),
                     ),
+                    width: 250,
                   ),
-                ),
-                SizedBox(
-                  width: 25,
-                ),
-                IconButton(
-                    iconSize: 35,
+                  SizedBox(
+                    width: 25,
+                  ),
+                  IconButton(
                     onPressed: () {},
-                    icon: Icon(
-                      Icons.filter_alt_outlined,
-                      color: Palette.accentAppColor,
-                    ))
-              ],
+                    icon: Icon(Icons.filter_alt_outlined),
+                    color: Palette.accentAppColor,
+                    iconSize: 35,
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: 25,
@@ -71,14 +77,87 @@ class _EvsizlistContentState extends State<EvsizlistContent> {
             Container(
               width: double.infinity,
               height: 500,
+              decoration: BoxDecoration(color: Colors.transparent),
               child: ListView(
-                children: [
-                  ListElementCreator(konumVerisi: 'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                children: <Widget>[
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
+                  ListElementCreator(
+                      konumVerisi:
+                          'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
                 ],
               ),
-            ),
+            )
           ],
-        )
+        ),
+      ),
     );
   }
 }
