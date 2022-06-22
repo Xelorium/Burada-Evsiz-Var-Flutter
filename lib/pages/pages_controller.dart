@@ -75,6 +75,81 @@ class _BeginScreenState extends State<BeginScreen> {
               ))),
       bottomSheet: isLastPage
           ? FadeIn(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn,
+              child: SizedBox(
+                height: 8.h,
+                child: Material(
+                  color: Palette.appColor,
+                  child: InkWell(
+                    onTap: () {
+                      FunctionalTimer().pagePushTo(
+                          context: context, screen: const LoginScreen());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "BAŞLAYIN",
+                          style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : Container(
+              height: 8.h,
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        _coastController.animateTo(
+                            beach: 3,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
+                      },
+                      child: Text(
+                        "Geç",
+                        style:
+                            TextStyle(color: Colors.black54, fontSize: 12.sp),
+                      )),
+                  Center(
+                    child: AnimatedSmoothIndicator(
+                      onDotClicked: (index) {
+                        _coastController.animateTo(
+                            beach: index,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
+                      },
+                      count: 3,
+                      effect: const WormEffect(
+                          activeDotColor: Palette.appColor,
+                          dotColor: Colors.black26),
+                      activeIndex: currentPage,
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        _coastController.animateTo(
+                            beach: currentPage + 1,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
+                      },
+                      child: Text(
+                        "İleri",
+                        style: TextStyle(
+                            fontSize: 13.sp, fontWeight: FontWeight.bold),
+                      )),
+                ],
+              ),
+            ),
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn,
         child: SizedBox(
@@ -150,6 +225,7 @@ class _BeginScreenState extends State<BeginScreen> {
           ],
         ),
       ),
+
     );
   }
 }
@@ -167,9 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return const Scaffold(
       body: SafeArea(child: LoginContent()),
     );
-  }
-}
-
+  
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -182,5 +256,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return MainContent();
+
   }
 }
