@@ -1,3 +1,4 @@
+import 'package:burada_evsiz_var/pages/visualitems/listelement_detail.dart';
 import 'package:flutter/material.dart';
 
 class ListElementCreator extends StatefulWidget {
@@ -48,7 +49,14 @@ class _ListElementCreatorState extends State<ListElementCreator> {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => ListElementDetail_Creator(
+                  aciklama: 'Burada evsiz gördüm çorba verdim',
+                  konumdetay: "Küplüce mah",
+                ));
+      },
       borderRadius: BorderRadius.circular(8),
       splashColor: Color.fromRGBO(239, 230, 230, 1),
       focusColor: Color.fromRGBO(239, 230, 230, 1),
