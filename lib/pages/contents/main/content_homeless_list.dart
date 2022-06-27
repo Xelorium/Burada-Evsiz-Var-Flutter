@@ -1,6 +1,6 @@
 import 'package:burada_evsiz_var/pages/visualitems/filter_options.dart';
-import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/pages/visualitems/list_element.dart';
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class EvsizlistContent extends StatefulWidget {
@@ -67,8 +67,8 @@ class _EvsizlistContentState extends State<EvsizlistContent> {
                     onPressed: () {
                       showDialog(
                           context: context,
-                          builder: (BuildContext context) => FilterOptionsMenu()
-                      );
+                          builder: (BuildContext context) =>
+                              FilterOptionsMenu());
                     },
                     icon: Icon(Icons.filter_alt_outlined),
                     color: Palette.accentAppColor,
@@ -85,7 +85,7 @@ class _EvsizlistContentState extends State<EvsizlistContent> {
               height: 500,
               decoration: BoxDecoration(color: Colors.transparent),
               child: ListView(
-                children: <Widget>[
+                children: const <Widget>[
                   ListElementCreator(
                       konumVerisi:
                           'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),

@@ -14,11 +14,24 @@ class _ListElementCreatorState extends State<ListElementCreator> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => const ListElementDetail_Creator(
+                  aciklama: 'Burada evsiz gördüm çorba verdim',
+                  konumDetay: "Küplüce mah",
+                ));
+      },
+      borderRadius: BorderRadius.circular(8),
+      splashColor: const Color.fromRGBO(239, 230, 230, 1),
+      focusColor: const Color.fromRGBO(239, 230, 230, 1),
+      hoverColor: const Color.fromRGBO(239, 230, 230, 1),
+      highlightColor: const Color.fromRGBO(239, 230, 230, 1),
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromRGBO(239, 230, 230, 1),
+            color: const Color.fromRGBO(239, 230, 230, 1),
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -26,19 +39,19 @@ class _ListElementCreatorState extends State<ListElementCreator> {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: 10,
                 ),
                 width: 40,
                 height: 40,
-                child: Image(
-                  image: AssetImage('assets/location.png'),
+                child: const Image(
+                  image: const AssetImage('assets/location.png'),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
-              Container(
+              SizedBox(
                 width: 280,
                 child: Text(
                   widget.konumVerisi,
@@ -49,19 +62,6 @@ class _ListElementCreatorState extends State<ListElementCreator> {
           ),
         ),
       ),
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => ListElementDetail_Creator(
-                  aciklama: 'Burada evsiz gördüm çorba verdim',
-                  konumdetay: "Küplüce mah",
-                ));
-      },
-      borderRadius: BorderRadius.circular(8),
-      splashColor: Color.fromRGBO(239, 230, 230, 1),
-      focusColor: Color.fromRGBO(239, 230, 230, 1),
-      hoverColor: Color.fromRGBO(239, 230, 230, 1),
-      highlightColor: Color.fromRGBO(239, 230, 230, 1),
     );
   }
 }

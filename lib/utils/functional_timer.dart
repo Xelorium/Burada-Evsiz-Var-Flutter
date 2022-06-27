@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class FunctionalTimer {
-
   void setTimerAndGo(
       {required bool isLoggedIn,
       required BuildContext context,

@@ -41,6 +41,9 @@ dependencies:
   coast:
   flutter_fadein: ^2.0.0
   flutter_launcher_icons: ^0.9.3
+  expandable_text: ^2.3.0
+  image_picker: ^0.8.5+3
+  camera:
 
 
 dev_dependencies:

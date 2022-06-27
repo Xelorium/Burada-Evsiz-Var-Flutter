@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ListElementDetail_Creator extends StatefulWidget {
-  final String konumdetay;
+  final String konumDetay;
   final String aciklama;
 
   const ListElementDetail_Creator(
-      {super.key, required this.aciklama, required this.konumdetay});
+      {super.key, required this.aciklama, required this.konumDetay});
 
   @override
   State<ListElementDetail_Creator> createState() =>
@@ -15,35 +15,35 @@ class ListElementDetail_Creator extends StatefulWidget {
 class _ListElementDetail_CreatorState extends State<ListElementDetail_Creator> {
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text('Evsiz Bilgisi'),
-      content: new Column(
+      content: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
             width: 250,
             height: 250,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.green,
             ),
-            child: Text(
+            child: const Text(
               'HARİTA',
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
-          Text(widget.konumdetay),
-          SizedBox(
+          Text(widget.konumDetay),
+          const SizedBox(
             height: 25,
           ),
           Text(widget.aciklama),
         ],
       ),
       actions: <Widget>[
-        new TextButton(
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

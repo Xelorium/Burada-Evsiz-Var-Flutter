@@ -21,7 +21,9 @@ class _FilterOptionsMenuState extends State<FilterOptionsMenu> {
           Row(
             children: [
               Text('A-Z Sıralaması: '),
-              SizedBox(width: 5,),
+              SizedBox(
+                width: 5,
+              ),
               ToggleButtons(
                 children: <Widget>[Icon(Icons.check), Icon(Icons.close)],
                 onPressed: (int index) {

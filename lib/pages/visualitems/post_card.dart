@@ -1,4 +1,6 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class CreatePostCard extends StatelessWidget {
   final String gonderiAciklamasi;
@@ -8,14 +10,12 @@ class CreatePostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 0.5.w),
       child: Material(
         elevation: 1.5,
-        borderRadius: BorderRadius.circular(12.0),
         child: Container(
-          padding: EdgeInsets.all(18.0),
+          padding: EdgeInsets.all(5.w),
           width: double.infinity,
-          height: 362.0,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.0),
@@ -23,22 +23,38 @@ class CreatePostCard extends StatelessWidget {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Row(
-                    children: [Text(gonderiAciklamasi)],
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ExpandableText(gonderiAciklamasi,
+                          maxLines: 4,
+                          collapseOnTextTap: true,
+                          expandOnTextTap: true,
+                          expandText: "Daha fazla göster"),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 1.h,
                 ),
                 Container(
                   alignment: Alignment.center,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                  ),
-                  child: Image(
+                  height: 30.h,
+                  decoration: const BoxDecoration(),
+                  child: const Image(
                     image: NetworkImage(
-                        'https://www.oyunturu.org/dosya/img/hobo.webp'),
+                        'https://i.pinimg.com/originals/d8/45/84/d84584e64ab8d30cbcbcd19269bd98c7.jpg'),
                   ),
+                ),
+                SizedBox(
+                  height: 0.5.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("5 Saat Önce"),
+                    ElevatedButton(onPressed: () {}, child: Text("Göster"))
+                  ],
                 )
               ]),
         ),
