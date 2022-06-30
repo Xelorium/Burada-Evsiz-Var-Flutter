@@ -1,5 +1,6 @@
 import 'package:burada_evsiz_var/pages/visualitems/listelement_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class ListElementCreator extends StatefulWidget {
   final String konumVerisi;
@@ -28,34 +29,45 @@ class _ListElementCreatorState extends State<ListElementCreator> {
       hoverColor: const Color.fromRGBO(239, 230, 230, 1),
       highlightColor: const Color.fromRGBO(239, 230, 230, 1),
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: EdgeInsets.all(1.h),
         child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(239, 230, 230, 1),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
-          height: 50,
+          height: 15.h,
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                ),
-                width: 40,
-                height: 40,
-                child: const Image(
-                  image: const AssetImage('assets/location.png'),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.konumVerisi,
+                      textAlign: TextAlign.left,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Mehmet Okuyan", style: TextStyle(decoration: TextDecoration.underline),),
+                        Text("10 saat önce", style: TextStyle(decoration: TextDecoration.underline),),
+                      ],
+                    ),
+
+                  ],
                 ),
               ),
-              const SizedBox(
-                width: 5,
-              ),
-              SizedBox(
-                width: 280,
-                child: Text(
-                  widget.konumVerisi,
-                  textAlign: TextAlign.left,
+              InkWell(
+                onTap: (){},
+                child: SizedBox (
+                  height: 8.h,
+                  child: const Image(
+                    fit: BoxFit.contain,
+                    image: const AssetImage('assets/location.png'),
+                  ),
                 ),
               ),
             ],

@@ -44,6 +44,8 @@ dependencies:
   expandable_text: ^2.3.0
   image_picker: ^0.8.5+3
   camera:
+  animated_bottom_navigation_bar: ^1.0.0
+  google_maps_flutter: ^2.1.8
 
 
 dev_dependencies:

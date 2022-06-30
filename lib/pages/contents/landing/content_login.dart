@@ -17,6 +17,9 @@ class _LoginContentState extends State<LoginContent> {
   final passwordController = TextEditingController();
   late bool _passwordVisible;
 
+
+
+
   @override
   void dispose() {
     mailController.dispose();
@@ -105,8 +108,8 @@ class _LoginContentState extends State<LoginContent> {
                       ),
                     ),
                     onPressed: () {
-                      FunctionalTimer().pagePushTo(
-                          context: context, screen: const MainScreen());
+
+                      FunctionalTimer().pagePushTo( context: context, screen: const MainScreen());
                     },
                     child: Container(
                         width: double.infinity,

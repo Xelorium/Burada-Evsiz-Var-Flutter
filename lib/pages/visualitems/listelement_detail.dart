@@ -1,4 +1,6 @@
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class ListElementDetail_Creator extends StatefulWidget {
   final String konumDetay;
@@ -21,25 +23,29 @@ class _ListElementDetail_CreatorState extends State<ListElementDetail_Creator> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            width: 250,
-            height: 250,
-            decoration: const BoxDecoration(
-              color: Colors.green,
-            ),
-            child: const Text(
-              'HARİTA',
-              textAlign: TextAlign.center,
-            ),
+          SizedBox(
+              width: double.infinity,
+              height: 50.h,
+              child: InkWell(
+                onTap: (){},
+                child: Image.network(
+                  "https://i.pinimg.com/originals/d8/45/84/d84584e64ab8d30cbcbcd19269bd98c7.jpg",
+                  fit: BoxFit.contain,
+                ),
+              )),
+          SizedBox(
+            height: 1.h,
           ),
-          const SizedBox(
-            height: 25,
+          TextButton(
+              onPressed: () {},
+              child: Text(widget.konumDetay,
+                  style: TextStyle(
+                      color: Palette.accentAppColor,
+                      decoration: TextDecoration.underline))),
+          SizedBox(
+            height: 1.h,
           ),
-          Text(widget.konumDetay),
-          const SizedBox(
-            height: 25,
-          ),
-          Text(widget.aciklama),
+          Expanded(child: SingleChildScrollView(child: Text(widget.aciklama))),
         ],
       ),
       actions: <Widget>[
