@@ -1,23 +1,25 @@
+import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/pages/visualitems/listelement_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
 
 class ListElementCreator extends StatefulWidget {
   final String uId;
-  final String address;
   final String postOwner;
   final String date;
   final String desc;
   final String photoId;
+  final MapInfo mapInfo;
 
   const ListElementCreator(
       {super.key,
-      required this.address,
       required this.postOwner,
       required this.date,
       required this.desc,
       required this.photoId,
-      required this.uId});
+      required this.uId,
+      required this.mapInfo});
 
   @override
   State<ListElementCreator> createState() => _ListElementCreatorState();
@@ -32,7 +34,7 @@ class _ListElementCreatorState extends State<ListElementCreator> {
             context: context,
             builder: (BuildContext context) => ListElementDetail_Creator(
                   aciklama: widget.desc,
-                  konumDetay: widget.address,
+                  mapInfo: widget.mapInfo,
                   photoId: widget.photoId,
                 ));
       },
@@ -59,7 +61,7 @@ class _ListElementCreatorState extends State<ListElementCreator> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.address,
+                      widget.mapInfo.addressName,
                       textAlign: TextAlign.left,
                     ),
                     Row(
@@ -81,12 +83,15 @@ class _ListElementCreatorState extends State<ListElementCreator> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  MapsLauncher.launchCoordinates(widget.mapInfo.latitude,
+                      widget.mapInfo.longitude, widget.mapInfo.addressName);
+                },
                 child: SizedBox(
                   height: 8.h,
                   child: const Image(
                     fit: BoxFit.contain,
-                    image: const AssetImage('assets/location.png'),
+                    image: AssetImage('assets/location.png'),
                   ),
                 ),
               ),
