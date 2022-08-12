@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.phronesis.burada_evsiz_var_flutter">
    <application
-        android:label="burada_evsiz_var_flutter"
+        android:label="burada_evsiz_var"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
