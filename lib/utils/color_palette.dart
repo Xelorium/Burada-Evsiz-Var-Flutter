@@ -18,7 +18,6 @@ class Palette {
     },
   );
 
-
   static const MaterialColor accentAppColor = MaterialColor(
     0xfffb4a59,
     // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.

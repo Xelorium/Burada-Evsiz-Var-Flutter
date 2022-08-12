@@ -1,11 +1,17 @@
+import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class ListElementDetail_Creator extends StatefulWidget {
-  final String konumdetay;
+  final String konumDetay;
   final String aciklama;
+  final String photoId;
 
   const ListElementDetail_Creator(
-      {super.key, required this.aciklama, required this.konumdetay});
+      {super.key,
+      required this.aciklama,
+      required this.konumDetay,
+      required this.photoId});
 
   @override
   State<ListElementDetail_Creator> createState() =>
@@ -15,35 +21,39 @@ class ListElementDetail_Creator extends StatefulWidget {
 class _ListElementDetail_CreatorState extends State<ListElementDetail_Creator> {
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text('Evsiz Bilgisi'),
-      content: new Column(
+      content: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            width: 250,
-            height: 250,
-            decoration: BoxDecoration(
-              color: Colors.green,
-            ),
-            child: Text(
-              'HARİTA',
-              textAlign: TextAlign.center,
-            ),
-          ),
           SizedBox(
-            height: 25,
-          ),
-          Text(widget.konumdetay),
+              width: double.infinity,
+              height: 50.h,
+              child: InkWell(
+                onTap: () {},
+                child: Image.network(
+                  widget.photoId,
+                  fit: BoxFit.contain,
+                ),
+              )),
           SizedBox(
-            height: 25,
+            height: 1.h,
           ),
-          Text(widget.aciklama),
+          TextButton(
+              onPressed: () {},
+              child: Text(widget.konumDetay,
+                  style: TextStyle(
+                      color: Palette.accentAppColor,
+                      decoration: TextDecoration.underline))),
+          SizedBox(
+            height: 1.h,
+          ),
+          Expanded(child: SingleChildScrollView(child: Text(widget.aciklama))),
         ],
       ),
       actions: <Widget>[
-        new TextButton(
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
