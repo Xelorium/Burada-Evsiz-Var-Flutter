@@ -3,9 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CreatePostCard extends StatelessWidget {
+  final String uId;
   final String gonderiAciklamasi;
+  final String gonderiSaati;
+  final String gonderiSahibi;
+  final String photoId;
 
-  const CreatePostCard({super.key, required this.gonderiAciklamasi});
+  const CreatePostCard(
+      {super.key,
+      required this.gonderiAciklamasi,
+      required this.gonderiSaati,
+      required this.gonderiSahibi,
+      required this.uId,
+      required this.photoId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,7 @@ class CreatePostCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: InkWell(
-            onTap: (){},
+            onTap: () {},
             splashColor: const Color.fromRGBO(239, 230, 230, 1),
             focusColor: const Color.fromRGBO(239, 230, 230, 1),
             hoverColor: const Color.fromRGBO(239, 230, 230, 1),
@@ -48,23 +58,19 @@ class CreatePostCard extends StatelessWidget {
                     height: 30.h,
                     decoration: const BoxDecoration(),
                     child: Image(
-                      frameBuilder:
-                          (BuildContext context,
-                          Widget child,
-                          int? frame,
-                          bool wasSynchronouslyLoaded) {
+                      frameBuilder: (BuildContext context, Widget child,
+                          int? frame, bool wasSynchronouslyLoaded) {
                         if (wasSynchronouslyLoaded) {
                           return child;
                         }
                         return AnimatedOpacity(
                           opacity: frame == null ? 0 : 1,
-                          duration:
-                          const Duration(milliseconds: 400),
+                          duration: const Duration(milliseconds: 400),
                           curve: Curves.easeOut,
                           child: child,
                         );
                       },
-                      image: const NetworkImage('https://i.pinimg.com/originals/d8/45/84/d84584e64ab8d30cbcbcd19269bd98c7.jpg'),
+                      image: NetworkImage(photoId),
                     ),
                   ),
                   SizedBox(
@@ -73,8 +79,14 @@ class CreatePostCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("5 Saat Önce", style: TextStyle(decoration: TextDecoration.underline),),
-                      Text("Mehmet Öztürk", style: TextStyle(decoration: TextDecoration.underline),)
+                      Text(
+                        "${gonderiSaati} saat önce",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                      Text(
+                        "${gonderiSahibi}",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      )
                     ],
                   )
                 ]),

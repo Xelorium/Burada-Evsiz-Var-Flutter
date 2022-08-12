@@ -25,11 +25,9 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
     if (!mounted) return;
 
     if (pickedFile == null) {
-
-      if(imageFile == null) {
+      if (imageFile == null) {
         Navigator.pop(context);
       }
-
     } else {
       setState(() {
         imageFile = File(pickedFile.path);
@@ -101,8 +99,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.file(
-                                    frameBuilder:
-                                        (BuildContext context,
+                                    frameBuilder: (BuildContext context,
                                         Widget child,
                                         int? frame,
                                         bool wasSynchronouslyLoaded) {
@@ -123,9 +120,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                             ),
                             TextButton(
                                 onPressed: () {
-
                                   _getFromCamera();
-
                                 },
                                 child: const Text("Değiştir"))
                           ],

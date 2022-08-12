@@ -26,12 +26,12 @@ class _ShowImageState extends State<ShowImage> {
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Icon(Icons.close)
-              ],
+              children: const [Icon(Icons.close)],
             ),
           ),
-          SizedBox(height: 1.h,),
+          SizedBox(
+            height: 1.h,
+          ),
           Image.file(widget.image),
         ],
       ),

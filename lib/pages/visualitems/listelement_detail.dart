@@ -5,9 +5,13 @@ import 'package:sizer/sizer.dart';
 class ListElementDetail_Creator extends StatefulWidget {
   final String konumDetay;
   final String aciklama;
+  final String photoId;
 
   const ListElementDetail_Creator(
-      {super.key, required this.aciklama, required this.konumDetay});
+      {super.key,
+      required this.aciklama,
+      required this.konumDetay,
+      required this.photoId});
 
   @override
   State<ListElementDetail_Creator> createState() =>
@@ -27,9 +31,9 @@ class _ListElementDetail_CreatorState extends State<ListElementDetail_Creator> {
               width: double.infinity,
               height: 50.h,
               child: InkWell(
-                onTap: (){},
+                onTap: () {},
                 child: Image.network(
-                  "https://i.pinimg.com/originals/d8/45/84/d84584e64ab8d30cbcbcd19269bd98c7.jpg",
+                  widget.photoId,
                   fit: BoxFit.contain,
                 ),
               )),

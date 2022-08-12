@@ -1,11 +1,13 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:burada_evsiz_var/objects/homelesses.dart';
+import 'package:burada_evsiz_var/objects/users.dart';
 import 'package:burada_evsiz_var/pages/contents/main/content_homeless_add.dart';
-import 'package:burada_evsiz_var/pages/contents/main/content_homeless_list.dart';
+import 'package:burada_evsiz_var/pages/contents/main/content_profile.dart';
 import 'package:burada_evsiz_var/pages/visualitems/list_element.dart';
 import 'package:burada_evsiz_var/pages/visualitems/post_card.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +29,7 @@ class _FeedContentState extends State<FeedContent> {
 
   static const List<Widget> _pageOptions = <Widget>[
     MainBodyContent(),
-    EvsizlistContent(),
+    ProfileContent(),
     AddHomelessContent(),
   ];
 
@@ -93,13 +95,33 @@ class MainBodyContent extends StatefulWidget {
 
 class _MainBodyContentState extends State<MainBodyContent> {
   int _selectedView = 0;
+  bool searchOpened = false;
+  bool _isVisible = false;
+
+  late final TextEditingController _textController;
+
+  @override
+  void initState() {
+    _textController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  List<Homeless> posts = allPosts;
+  List<Homeless> homelesses = allHomelesses;
+  List<User> users = allUsers;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          height: 8.h,
+          height: 9.h,
           color: Palette.accentAppColor.shade800,
           width: double.infinity,
           child: Row(
@@ -108,7 +130,11 @@ class _MainBodyContentState extends State<MainBodyContent> {
                   flex: 1,
                   child: InkWell(
                     onTap: () {
-                      setState(() => _selectedView = 0);
+                      setState(() {
+                        _selectedView = 0;
+                        _isVisible = false;
+                        searchPost("");
+                      });
                     },
                     child: Container(
                       height: double.infinity,
@@ -125,7 +151,10 @@ class _MainBodyContentState extends State<MainBodyContent> {
                   flex: 1,
                   child: InkWell(
                     onTap: () {
-                      setState(() => _selectedView = 1);
+                      setState(() {
+                        _selectedView = 1;
+                        _isVisible = true;
+                      });
                     },
                     child: Container(
                       height: double.infinity,
@@ -140,55 +169,91 @@ class _MainBodyContentState extends State<MainBodyContent> {
                   )),
               Expanded(
                   flex: 3,
-                  child: Container(
-                    height: double.infinity,
-                    color: Colors.green.shade100,
-                    child: Icon(Icons.search, size: 4.h),
-                  )),
+                  child: Visibility(
+                      visible: _isVisible,
+                      child: FloatingSearchBar(
+                        hint: 'Arayın...',
+                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionCurve: Curves.easeInOut,
+                        physics: const BouncingScrollPhysics(),
+                        openAxisAlignment: 0.0,
+                        debounceDelay: const Duration(milliseconds: 500),
+                        onQueryChanged: (query) {
+                          searchPost(query);
+                        },
+                        // Specify a custom transition to be used for
+                        // animating between opened and closed stated.
+                        transition: CircularFloatingSearchBarTransition(),
+                        actions: [
+                          FloatingSearchBarAction(
+                            showIfOpened: false,
+                            child: CircularButton(
+                              icon: const Icon(Icons.place),
+                              onPressed: () {},
+                            ),
+                          ),
+                          FloatingSearchBarAction.searchToClear(
+                            showIfClosed: false,
+                          ),
+                        ],
+                        builder: (context, transition) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Material(
+                              color: Colors.white,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: Colors.accents.map((color) {
+                                  return Container(color: color);
+                                }).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+
+                      // SearchBarAnimation(
+                      //         isSearchBoxOnRightSide: true,
+                      //         textEditingController: _textController,
+                      //         isOriginalAnimation: true,
+                      //         enableKeyboardFocus: true,
+                      //         onEditingComplete: searchPost,
+                      //         hintText: "Arayın...",
+                      //       ),
+                      )),
             ],
           ),
         ),
         Expanded(
           child: RefreshIndicator(
-            onRefresh: _refresh,
-            child: _selectedView == 0
-                ? ListView(
-                    children: const [
-                      CreatePostCard(
-                          gonderiAciklamasi:
-                              'BÖASFALSKFHASLKFJASLKFJASLKFJLASKJFLKASJLKFASJLKYLE'),
-                      CreatePostCard(
-                        gonderiAciklamasi: 'deneme',
-                      ),
-                      CreatePostCard(
-                        gonderiAciklamasi:
-                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries',
-                      ),
-                    ],
-                  )
-                : ListView(
-                    children: const [
-                      ListElementCreator(
-                          konumVerisi:
-                              'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
-                      ListElementCreator(
-                          konumVerisi:
-                              'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
-                      ListElementCreator(
-                          konumVerisi:
-                              'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
-                      ListElementCreator(
-                          konumVerisi:
-                              'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
-                      ListElementCreator(
-                          konumVerisi:
-                              'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
-                      ListElementCreator(
-                          konumVerisi:
-                              'Küplüce Mah. Zümrütbahçe Sok. Üsküdar/ İstanbul'),
-                    ],
-                  ),
-          ),
+              onRefresh: _refresh,
+              child: _selectedView == 0
+                  ? ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        final post = posts[index];
+                        final user = users[index];
+                        return CreatePostCard(
+                            uId: "2",
+                            photoId: post.photoId,
+                            gonderiAciklamasi: post.desc,
+                            gonderiSaati: post.date,
+                            gonderiSahibi: "${user.name} ${user.surName}");
+                      },
+                    )
+                  : ListView.builder(
+                      itemCount: homelesses.length,
+                      itemBuilder: (context, index) {
+                        final homeless = homelesses[index];
+                        final user = users[index];
+                        return ListElementCreator(
+                            uId: "1",
+                            desc: homeless.desc,
+                            photoId: homeless.photoId,
+                            address: homeless.address,
+                            postOwner: "${user.name} ${user.surName}",
+                            date: homeless.date);
+                      })),
         ),
       ],
     );
@@ -196,5 +261,22 @@ class _MainBodyContentState extends State<MainBodyContent> {
 
   Future<void> _refresh() {
     return Future.delayed(const Duration(seconds: 0));
+  }
+
+  void searchPost(String query) {
+    final results = allHomelesses.where((homeless) {
+      final postAddress = homeless.address.toLowerCase();
+      final input = query.toLowerCase();
+
+      return postAddress.contains(input);
+    }).toList();
+
+    setState(() => homelesses = results);
+  }
+
+  void showToast() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
   }
 }

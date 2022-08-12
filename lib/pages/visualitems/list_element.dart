@@ -3,9 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class ListElementCreator extends StatefulWidget {
-  final String konumVerisi;
+  final String uId;
+  final String address;
+  final String postOwner;
+  final String date;
+  final String desc;
+  final String photoId;
 
-  const ListElementCreator({super.key, required this.konumVerisi});
+  const ListElementCreator(
+      {super.key,
+      required this.address,
+      required this.postOwner,
+      required this.date,
+      required this.desc,
+      required this.photoId,
+      required this.uId});
 
   @override
   State<ListElementCreator> createState() => _ListElementCreatorState();
@@ -18,9 +30,10 @@ class _ListElementCreatorState extends State<ListElementCreator> {
       onTap: () {
         showDialog(
             context: context,
-            builder: (BuildContext context) => const ListElementDetail_Creator(
-                  aciklama: 'Burada evsiz gördüm çorba verdim',
-                  konumDetay: "Küplüce mah",
+            builder: (BuildContext context) => ListElementDetail_Creator(
+                  aciklama: widget.desc,
+                  konumDetay: widget.address,
+                  photoId: widget.photoId,
                 ));
       },
       borderRadius: BorderRadius.circular(8),
@@ -46,23 +59,30 @@ class _ListElementCreatorState extends State<ListElementCreator> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.konumVerisi,
+                      widget.address,
                       textAlign: TextAlign.left,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Mehmet Okuyan", style: TextStyle(decoration: TextDecoration.underline),),
-                        Text("10 saat önce", style: TextStyle(decoration: TextDecoration.underline),),
+                        Text(
+                          widget.postOwner,
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
+                        ),
+                        Text(
+                          "${widget.date} saat önce",
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
+                        ),
                       ],
                     ),
-
                   ],
                 ),
               ),
               InkWell(
-                onTap: (){},
-                child: SizedBox (
+                onTap: () {},
+                child: SizedBox(
                   height: 8.h,
                   child: const Image(
                     fit: BoxFit.contain,
