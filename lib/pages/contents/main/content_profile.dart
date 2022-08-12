@@ -45,8 +45,8 @@ class _ProfileContentState extends State<ProfileContent> {
           ),
           Expanded(
               flex: 6,
-              child: Container(
-                  child: ListView(
+              child:  Container(
+                  child:  ListView(
                 children: [
                   ProfileTile(
                       tileType: 0,
