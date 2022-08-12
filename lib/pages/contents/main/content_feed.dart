@@ -250,7 +250,7 @@ class _MainBodyContentState extends State<MainBodyContent> {
                         final user = users[index];
                         final mapInfo = mapInfos[index];
                         return ListElementCreator(
-                          mapInfo: mapInfo,
+                            mapInfo: mapInfo,
                             uId: "1",
                             desc: homeless.desc,
                             photoId: homeless.photoId,

@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/pages/visualitems/show_image.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
@@ -32,7 +31,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
 
   void _getFromCamera() async {
     final XFile? pickedFile =
-    await _picker.pickImage(source: ImageSource.camera);
+        await _picker.pickImage(source: ImageSource.camera);
 
     if (!mounted) return;
 
@@ -86,7 +85,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
         child: Container(
           alignment: Alignment.topCenter,
           padding:
-          EdgeInsets.only(left: 7.w, right: 7.w, top: 5.h, bottom: 2.h),
+              EdgeInsets.only(left: 7.w, right: 7.w, top: 5.h, bottom: 2.h),
           child: SingleChildScrollView(
             reverse: true,
             child: Column(
@@ -105,38 +104,38 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                   child: imageFile == null
                       ? const Icon(Icons.add_a_photo_outlined)
                       : Column(
-                    children: [
-                      SizedBox(
-                        height: 40.h,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.file(
-                              frameBuilder: (BuildContext context,
-                                  Widget child,
-                                  int? frame,
-                                  bool wasSynchronouslyLoaded) {
-                                if (wasSynchronouslyLoaded) {
-                                  return child;
-                                }
-                                return AnimatedOpacity(
-                                  opacity: frame == null ? 0 : 1,
-                                  duration:
-                                  const Duration(milliseconds: 500),
-                                  curve: Curves.easeOut,
-                                  child: child,
-                                );
-                              },
-                              imageFile!,
-                              fit: BoxFit.contain,
-                            )),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            _getFromCamera();
-                          },
-                          child: const Text("Değiştir"))
-                    ],
-                  ),
+                          children: [
+                            SizedBox(
+                              height: 40.h,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.file(
+                                    frameBuilder: (BuildContext context,
+                                        Widget child,
+                                        int? frame,
+                                        bool wasSynchronouslyLoaded) {
+                                      if (wasSynchronouslyLoaded) {
+                                        return child;
+                                      }
+                                      return AnimatedOpacity(
+                                        opacity: frame == null ? 0 : 1,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        curve: Curves.easeOut,
+                                        child: child,
+                                      );
+                                    },
+                                    imageFile!,
+                                    fit: BoxFit.contain,
+                                  )),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  _getFromCamera();
+                                },
+                                child: const Text("Değiştir"))
+                          ],
+                        ),
                 ),
                 SizedBox(
                   height: 4.h,
@@ -151,33 +150,31 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                       Expanded(
                         flex: 2,
                         child: IconButton(
-                          onPressed: () =>
-                          {
+                          onPressed: () => {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                  return PlacePicker(
-                                    apiKey:
+                              return PlacePicker(
+                                apiKey:
                                     "AIzaSyBn4WLuW17Src7iqWOEkuWPCIS2-d717qA",
-                                    initialPosition:
+                                initialPosition:
                                     AddHomelessContent.kInitialPosition,
-                                    useCurrentLocation: true,
-                                    selectInitialPosition: true,
-                                    onPlacePicked: (result) {
-                                      selectedPlace = result;
-                                      Navigator.of(context).pop();
-                                      setState(() {
-                                        address =
-                                        selectedPlace.formattedAddress!;
-                                        sendingLocation = MapInfo(
-                                            selectedPlace.placeId.toString(),
-                                            selectedPlace.formattedAddress
-                                                .toString(),
-                                            selectedPlace.geometry!.location.lat,
-                                            selectedPlace.geometry!.location.lng);
-                                      });
-                                    },
-                                  );
-                                }))
+                                useCurrentLocation: true,
+                                selectInitialPosition: true,
+                                onPlacePicked: (result) {
+                                  selectedPlace = result;
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    address = selectedPlace.formattedAddress!;
+                                    sendingLocation = MapInfo(
+                                        selectedPlace.placeId.toString(),
+                                        selectedPlace.formattedAddress
+                                            .toString(),
+                                        selectedPlace.geometry!.location.lat,
+                                        selectedPlace.geometry!.location.lng);
+                                  });
+                                },
+                              );
+                            }))
                           },
                           icon: Image.asset('assets/location.png'),
                           hoverColor: Colors.transparent,
@@ -220,10 +217,8 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                       ),
                     ),
                     onPressed: () {
-
                       // BU OBJEYİ GÖNDER
                       //sendingLocation
-
                     },
                     child: Container(
                         alignment: Alignment.center,

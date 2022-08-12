@@ -12,7 +12,8 @@ class ListElementDetail_Creator extends StatefulWidget {
   const ListElementDetail_Creator(
       {super.key,
       required this.aciklama,
-      required this.photoId, required this.mapInfo});
+      required this.photoId,
+      required this.mapInfo});
 
   @override
   State<ListElementDetail_Creator> createState() =>
@@ -43,10 +44,8 @@ class _ListElementDetail_CreatorState extends State<ListElementDetail_Creator> {
           ),
           TextButton(
               onPressed: () {
-
                 MapsLauncher.launchCoordinates(widget.mapInfo.latitude,
                     widget.mapInfo.longitude, widget.mapInfo.addressName);
-
               },
               child: Text(widget.mapInfo.addressName,
                   style: TextStyle(
