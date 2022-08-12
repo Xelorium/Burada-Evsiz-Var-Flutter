@@ -40,12 +40,19 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   coast:
   flutter_fadein: ^2.0.0
+  flutter_launcher_icons: ^0.10.0
+  expandable_text: ^2.3.0
+  image_picker: ^0.8.5+3
+  camera:
+  animated_bottom_navigation_bar: ^1.0.1
+  google_maps_flutter: ^2.1.10
+  searchbar_animation: ^0.0.2
+  material_floating_search_bar: ^0.3.7
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
