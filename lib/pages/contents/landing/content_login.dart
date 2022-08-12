@@ -2,8 +2,10 @@ import 'package:burada_evsiz_var/pages/pages_controller.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/curved_shape.dart';
 import 'package:burada_evsiz_var/utils/functional_timer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class LoginContent extends StatefulWidget {
   const LoginContent({Key? key}) : super(key: key);
@@ -16,6 +18,13 @@ class _LoginContentState extends State<LoginContent> {
   final mailController = TextEditingController();
   final passwordController = TextEditingController();
   late bool _passwordVisible;
+
+  Future girisYap() async {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: mailController.text.trim(),
+          password: passwordController.text.trim()
+      );
+  }
 
   @override
   void dispose() {
@@ -104,10 +113,11 @@ class _LoginContentState extends State<LoginContent> {
                         borderRadius: BorderRadius.circular(0), // <-- Radius
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: girisYap,
+                       /* () {
                       FunctionalTimer().pagePushTo(
                           context: context, screen: const MainScreen());
-                    },
+                    } */
                     child: Container(
                         width: double.infinity,
                         padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -154,6 +164,10 @@ class _LoginContentState extends State<LoginContent> {
         ),
       ],
     );
+
+
+
+
     //   Stack(
     //   children: [
     //     const MainCurvedShape(),
