@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:burada_evsiz_var/objects/homelesses.dart';
+import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/objects/users.dart';
 import 'package:burada_evsiz_var/pages/contents/main/content_homeless_add.dart';
 import 'package:burada_evsiz_var/pages/contents/main/content_profile.dart';
@@ -115,6 +116,7 @@ class _MainBodyContentState extends State<MainBodyContent> {
   List<Homeless> posts = allPosts;
   List<Homeless> homelesses = allHomelesses;
   List<User> users = allUsers;
+  List<MapInfo> mapInfos = allLocations;
 
   @override
   Widget build(BuildContext context) {
@@ -246,11 +248,12 @@ class _MainBodyContentState extends State<MainBodyContent> {
                       itemBuilder: (context, index) {
                         final homeless = homelesses[index];
                         final user = users[index];
+                        final mapInfo = mapInfos[index];
                         return ListElementCreator(
+                          mapInfo: mapInfo,
                             uId: "1",
                             desc: homeless.desc,
                             photoId: homeless.photoId,
-                            address: homeless.address,
                             postOwner: "${user.name} ${user.surName}",
                             date: homeless.date);
                       })),
