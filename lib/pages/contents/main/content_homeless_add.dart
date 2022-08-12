@@ -1,14 +1,19 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/pages/visualitems/show_image.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
 class AddHomelessContent extends StatefulWidget {
   const AddHomelessContent({Key? key}) : super(key: key);
+
+  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
 
   @override
   State<AddHomelessContent> createState() => _AddHomelessContentState();
@@ -17,6 +22,12 @@ class AddHomelessContent extends StatefulWidget {
 class _AddHomelessContentState extends State<AddHomelessContent> {
   File? imageFile;
   final ImagePicker _picker = ImagePicker();
+
+  late PickResult selectedPlace;
+
+  String address = "Konumu belirleyiniz...";
+
+  late MapInfo sendingLocation;
 
   void _getFromCamera() async {
     final XFile? pickedFile =
@@ -136,15 +147,49 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                   ),
                   child: Row(
                     children: [
-                      IconButton(
-                        onPressed: () => {},
-                        icon: Image.asset('assets/location.png'),
-                        hoverColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
+                      Expanded(
+                        flex: 2,
+                        child: IconButton(
+                          onPressed: () => {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return PlacePicker(
+                                apiKey:
+                                    "AIzaSyBn4WLuW17Src7iqWOEkuWPCIS2-d717qA",
+                                initialPosition:
+                                    AddHomelessContent.kInitialPosition,
+                                useCurrentLocation: true,
+                                selectInitialPosition: true,
+                                onPlacePicked: (result) {
+                                  selectedPlace = result;
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    address = selectedPlace.formattedAddress!;
+                                    sendingLocation = MapInfo(
+                                        selectedPlace.placeId.toString(),
+                                        selectedPlace.formattedAddress
+                                            .toString(),
+                                        selectedPlace.geometry!.location.lat,
+                                        selectedPlace.geometry!.location.lng);
+                                  });
+                                },
+                              );
+                            }))
+                          },
+                          icon: Image.asset('assets/location.png'),
+                          hoverColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                        ),
                       ),
-                      const Text(
-                        'Konumu belirleyin...',
+                      Expanded(
+                        flex: 8,
+                        child: AutoSizeText(
+                          address,
+                          style: TextStyle(fontSize: 10.sp),
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       )
                     ],
                   ),
@@ -171,7 +216,10 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                         borderRadius: BorderRadius.circular(8), // <-- Radius
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // BU OBJEYİ GÖNDER
+                      //sendingLocation
+                    },
                     child: Container(
                         alignment: Alignment.center,
                         width: double.infinity,
