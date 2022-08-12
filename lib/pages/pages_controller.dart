@@ -6,10 +6,12 @@ import 'package:burada_evsiz_var/pages/contents/landing/content_splash.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/functional_timer.dart';
 import 'package:coast/coast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'contents/main/content_feed.dart';
 
@@ -164,13 +166,31 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+      sayfadegistir() {
+      FunctionalTimer().pagePushTo(
+        context: context, screen: const MainScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: LoginContent()),
+    return  Scaffold(
+      body: SafeArea(child: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot){
+            if(snapshot.hasData) {
+              return sayfadegistir();
+            }
+            else {
+              return LoginContent();
+            }
+          }
+      )),
     );
   }
 }
+
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
