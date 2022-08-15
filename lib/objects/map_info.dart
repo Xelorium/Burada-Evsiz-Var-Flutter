@@ -5,6 +5,15 @@ class MapInfo {
   final double longitude;
 
   const MapInfo(this.placeId, this.addressName, this.latitude, this.longitude);
+
+  Map<String, dynamic> toMap() {
+    return {
+      "placeId": placeId,
+      "addressName": addressName,
+      "latitude": latitude,
+      "longitude": longitude,
+    };
+  }
 }
 
 const allLocations = [

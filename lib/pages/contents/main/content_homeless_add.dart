@@ -4,11 +4,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/pages/visualitems/show_image.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../objects/homelesses_two.dart';
 
 class AddHomelessContent extends StatefulWidget {
   const AddHomelessContent({Key? key}) : super(key: key);
@@ -25,6 +30,11 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
 
   late PickResult selectedPlace;
 
+  bool _locationController = false;
+  bool _descriptionController = false;
+
+  TextEditingController descriptionController = TextEditingController();
+
   String address = "Konumu belirleyiniz...";
 
   late MapInfo sendingLocation;
@@ -37,7 +47,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
 
     if (pickedFile == null) {
       if (imageFile == null) {
-        Navigator.pop(context);
+        Navigator.pop(this.context);
       }
     } else {
       setState(() {
@@ -46,10 +56,22 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
     }
   }
 
+  final doc = FirebaseFirestore.instance.collection("homelesses").doc();
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
   @override
   void initState() {
     _getFromCamera();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    descriptionController.dispose();
+    super.dispose();
   }
 
   @override
@@ -145,59 +167,67 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                     color: Palette.accentAppColor.shade800,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: IconButton(
-                          onPressed: () => {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return PlacePicker(
-                                apiKey:
-                                    "AIzaSyBn4WLuW17Src7iqWOEkuWPCIS2-d717qA",
-                                initialPosition:
-                                    AddHomelessContent.kInitialPosition,
-                                useCurrentLocation: true,
-                                selectInitialPosition: true,
-                                onPlacePicked: (result) {
-                                  selectedPlace = result;
-                                  Navigator.of(context).pop();
-                                  setState(() {
-                                    address = selectedPlace.formattedAddress!;
-                                    sendingLocation = MapInfo(
-                                        selectedPlace.placeId.toString(),
-                                        selectedPlace.formattedAddress
-                                            .toString(),
-                                        selectedPlace.geometry!.location.lat,
-                                        selectedPlace.geometry!.location.lng);
-                                  });
-                                },
-                              );
-                            }))
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return PlacePicker(
+                          apiKey: "AIzaSyBn4WLuW17Src7iqWOEkuWPCIS2-d717qA",
+                          initialPosition: AddHomelessContent.kInitialPosition,
+                          useCurrentLocation: true,
+                          selectInitialPosition: true,
+                          onPlacePicked: (result) {
+                            selectedPlace = result;
+                            Navigator.of(context).pop();
+                            setState(() {
+                              address = selectedPlace.formattedAddress!;
+                              sendingLocation = MapInfo(
+                                  selectedPlace.placeId.toString(),
+                                  selectedPlace.formattedAddress.toString(),
+                                  selectedPlace.geometry!.location.lat,
+                                  selectedPlace.geometry!.location.lng);
+                              _locationController = true;
+                            });
                           },
-                          icon: Image.asset('assets/location.png'),
-                          hoverColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
+                        );
+                      }));
+                    },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Image.asset(
+                            'assets/location.png',
+                            height: 8.h,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: AutoSizeText(
-                          address,
-                          style: TextStyle(fontSize: 10.sp),
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
+                        Expanded(
+                          flex: 8,
+                          child: AutoSizeText(
+                            address,
+                            style: TextStyle(fontSize: 10.sp),
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 TextFormField(
+                  onChanged: (text) {
+                    setState(() {
+                      if (text.length > 3 && text.isNotEmpty) {
+                        _descriptionController = true;
+                      } else {
+                        _descriptionController = false;
+                      }
+                    });
+                  },
+                  controller: descriptionController,
                   maxLines: 5,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.done,
@@ -216,10 +246,21 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
                         borderRadius: BorderRadius.circular(8), // <-- Radius
                       ),
                     ),
-                    onPressed: () {
-                      // BU OBJEYİ GÖNDER
-                      //sendingLocation
-                    },
+                    onPressed: _locationController && _descriptionController
+                        ? () async {
+                            try {
+                              await addHomeless();
+                              Navigator.pop(this.context);
+                              await _showMyDialog();
+                              Navigator.pop(this.context);
+                            } catch (e) {
+                              print("${e} hatası");
+                            }
+
+                            // BU OBJEYİ GÖNDER
+                            //sendingLocation
+                          }
+                        : null,
                     child: Container(
                         alignment: Alignment.center,
                         width: double.infinity,
@@ -234,6 +275,103 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> addHomeless() async {
+    showLoaderDialog(this.context);
+
+    var useruID = "ZUo2T6dncBbmgXqliEt18G5rNMD3";
+
+    // UploadTask? uploadTask;
+    //
+    // final path = "${useruID}/${postuID}.jpg";
+    // final ref = FirebaseStorage.instance.ref().child(path);
+    // uploadTask = ref.putFile(imageFile!);
+    // final snapshot =  uploadTask!.whenComplete(() => {});
+
+    HomelessTwo homeless = HomelessTwo(
+        MapInfo(
+                selectedPlace.placeId.toString(),
+                selectedPlace.formattedAddress.toString(),
+                selectedPlace.geometry!.location.lat,
+                selectedPlace.geometry!.location.lng)
+            .toMap(),
+        useruID.toString(),
+        DateTime.now().millisecondsSinceEpoch,
+        doc.id,
+        descriptionController.text,
+        doc.id,
+        true);
+
+    await uploadFile();
+
+    return doc.set(homeless.toMap());
+
+    // doc.doc("ZUo2T6dncBbmgXqliEt18G5rNMD3").collection("Homelesses")
+    //
+    //   .add(homeless.toMap())
+    //   .then((value) => print("added"))
+    //   .catchError((error) => print(error));
+  }
+
+  Future uploadFile() async {
+    if (imageFile == null) return;
+    final fileName = basename(imageFile!.path);
+    final destination = 'homelessses/${doc.id}';
+
+    try {
+      final ref = firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .child('file/');
+      await ref.putFile(imageFile!);
+    } catch (e) {
+      print('error occured ${e}');
+    }
+  }
+
+  showLoaderDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 7), child: Text("Gönderiliyor...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: this.context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Gönderildi'),
+          content: SingleChildScrollView(
+              child: Icon(
+            Icons.done,
+            color: Colors.green,
+            size: 15.h,
+          )),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Tamam'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
