@@ -71,10 +71,12 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
 //For Firebase Analytics Service
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.7'
 //For Firebase Authentication Service
-    implementation 'com.google.firebase:firebase-firestore:21.3.1'
+    implementation 'com.google.firebase:firebase-firestore:24.2.2'
 //For Firebase Firestore Database Service
 }
+

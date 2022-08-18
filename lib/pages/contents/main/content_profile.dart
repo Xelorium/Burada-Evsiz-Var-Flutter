@@ -88,11 +88,11 @@ class _ProfileContentState extends State<ProfileContent> {
                               ProfileTile(
                                   tileType: 0,
                                   tileTitle: "Kullanıcı Adı",
-                                  tileDesc: userName!),
+                                  tileDesc: userName),
                               ProfileTile(
                                   tileType: 1,
                                   tileTitle: "E Posta",
-                                  tileDesc: mail!),
+                                  tileDesc: mail),
                               ProfileTile(
                                   tileType: 2,
                                   tileTitle: "Kullanıcı Türü",
