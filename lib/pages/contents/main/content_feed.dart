@@ -1,12 +1,12 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:burada_evsiz_var/objects/homelesses.dart';
-import 'package:burada_evsiz_var/objects/map_info.dart';
-import 'package:burada_evsiz_var/objects/users.dart';
+import 'package:burada_evsiz_var/objects/users.dart' hide User;
 import 'package:burada_evsiz_var/pages/contents/main/content_homeless_add.dart';
 import 'package:burada_evsiz_var/pages/contents/main/content_profile.dart';
 import 'package:burada_evsiz_var/pages/visualitems/list_element.dart';
 import 'package:burada_evsiz_var/pages/visualitems/post_card.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:page_transition/page_transition.dart';
@@ -20,6 +20,7 @@ class FeedContent extends StatefulWidget {
 }
 
 class _FeedContentState extends State<FeedContent> {
+  final kullanici = FirebaseAuth.instance.currentUser!;
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -41,6 +42,7 @@ class _FeedContentState extends State<FeedContent> {
       appBar: AppBar(
         elevation: 0.5,
         centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Image.asset(
           'assets/bev_logo.png',
           fit: BoxFit.cover,
@@ -115,8 +117,7 @@ class _MainBodyContentState extends State<MainBodyContent> {
 
   List<Homeless> posts = allPosts;
   List<Homeless> homelesses = allHomelesses;
-  List<User> users = allUsers;
-  List<MapInfo> mapInfos = allLocations;
+
 
   @override
   Widget build(BuildContext context) {
@@ -234,27 +235,26 @@ class _MainBodyContentState extends State<MainBodyContent> {
                       itemCount: posts.length,
                       itemBuilder: (context, index) {
                         final post = posts[index];
-                        final user = users[index];
+                        final user = FirebaseAuth.instance.currentUser!;
                         return CreatePostCard(
                             uId: "2",
                             photoId: post.photoId,
                             gonderiAciklamasi: post.desc,
                             gonderiSaati: post.date,
-                            gonderiSahibi: "${user.name} ${user.surName}");
+                            gonderiSahibi: user.email!);
                       },
                     )
                   : ListView.builder(
                       itemCount: homelesses.length,
                       itemBuilder: (context, index) {
                         final homeless = homelesses[index];
-                        final user = users[index];
-                        final mapInfo = mapInfos[index];
+                        final user = FirebaseAuth.instance.currentUser!;
                         return ListElementCreator(
-                            mapInfo: mapInfo,
                             uId: "1",
                             desc: homeless.desc,
                             photoId: homeless.photoId,
-                            postOwner: "${user.name} ${user.surName}",
+                            address: homeless.address,
+                            postOwner: user.email!,
                             date: homeless.date);
                       })),
         ),
