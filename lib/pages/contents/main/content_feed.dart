@@ -249,13 +249,14 @@ class _MainBodyContentState extends State<MainBodyContent> {
                       itemBuilder: (context, index) {
                         final homeless = homelesses[index];
                         final user = FirebaseAuth.instance.currentUser!;
-                        return ListElementCreator(
-                            uId: "1",
-                            desc: homeless.desc,
-                            photoId: homeless.photoId,
-                            address: homeless.address,
-                            postOwner: user.email!,
-                            date: homeless.date);
+                        return Container();
+                          // ListElementCreator(
+                          //   uId: "1",
+                          //   desc: homeless.desc,
+                          //   photoId: homeless.photoId,
+                          //   mapInfo: homeless.address,
+                          //   postOwner: user.email!,
+                          //   date: homeless.date);
                       })),
         ),
       ],
