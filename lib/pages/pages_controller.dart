@@ -87,7 +87,7 @@ class _BeginScreenState extends State<BeginScreen> {
                   color: Palette.appColor,
                   child: InkWell(
                     onTap: () {
-                      FunctionalTimer().pagePushTo(
+                      FunctionalTimer().pageReplaceTo(
                           context: context, screen: const LoginScreen());
                     },
                     child: Row(
