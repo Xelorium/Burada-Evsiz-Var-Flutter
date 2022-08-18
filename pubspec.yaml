@@ -48,6 +48,14 @@ dependencies:
   google_maps_flutter: ^2.1.10
   searchbar_animation: ^0.0.2
   material_floating_search_bar: ^0.3.7
+
+  google_maps_place_picker: ^2.1.0-nullsafety.3
+  geolocator: ^7.7.1
+  google_maps_webservice: ^0.0.20-nullsafety.5
+  tuple: ^2.0.0
+  auto_size_text: ^3.0.0
+  maps_launcher: ^2.0.1
+  url_launcher: ^6.1.5
   firebase_core: ^1.20.1
   firebase_analytics: ^9.3.1
   firebase_auth: ^3.6.3

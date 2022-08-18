@@ -1,17 +1,19 @@
+import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
 
 class ListElementDetail_Creator extends StatefulWidget {
-  final String konumDetay;
   final String aciklama;
   final String photoId;
+  final MapInfo mapInfo;
 
   const ListElementDetail_Creator(
       {super.key,
       required this.aciklama,
-      required this.konumDetay,
-      required this.photoId});
+      required this.photoId,
+      required this.mapInfo});
 
   @override
   State<ListElementDetail_Creator> createState() =>
@@ -41,8 +43,11 @@ class _ListElementDetail_CreatorState extends State<ListElementDetail_Creator> {
             height: 1.h,
           ),
           TextButton(
-              onPressed: () {},
-              child: Text(widget.konumDetay,
+              onPressed: () {
+                MapsLauncher.launchCoordinates(widget.mapInfo.latitude,
+                    widget.mapInfo.longitude, widget.mapInfo.addressName);
+              },
+              child: Text(widget.mapInfo.addressName,
                   style: TextStyle(
                       color: Palette.accentAppColor,
                       decoration: TextDecoration.underline))),
