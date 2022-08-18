@@ -1,3 +1,4 @@
+import 'package:burada_evsiz_var/main.dart';
 import 'package:burada_evsiz_var/pages/pages_controller.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/curved_shape.dart';
@@ -20,10 +21,13 @@ class _LoginContentState extends State<LoginContent> {
   late bool _passwordVisible;
 
   Future girisYap() async {
+
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: mailController.text.trim(),
           password: passwordController.text.trim()
       );
+
+
   }
 
   @override
