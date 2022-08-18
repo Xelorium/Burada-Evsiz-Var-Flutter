@@ -1,5 +1,7 @@
 import 'package:burada_evsiz_var/pages/visualitems/profile_tile.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,6 +13,34 @@ class ProfileContent extends StatefulWidget {
 }
 
 class _ProfileContentState extends State<ProfileContent> {
+  final kullanici = FirebaseAuth.instance.currentUser!;
+
+  var uId = "";
+  var name = "";
+  var surName = "";
+  var userName = "";
+  var mail = "";
+  var userType = "";
+  var pUrl = "";
+
+  Future getDataFromDatabase() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) async {
+      if (snapshot.exists) {
+        uId = snapshot.data()!["uid"];
+        name = snapshot.data()!["name"];
+        surName = snapshot.data()!["surName"];
+        mail = snapshot.data()!["email"];
+        userName = snapshot.data()!["userName"];
+        userType = snapshot.data()!["userType"];
+        pUrl = snapshot.data()!["pUrl"];
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,22 +76,37 @@ class _ProfileContentState extends State<ProfileContent> {
           Expanded(
               flex: 6,
               child: Container(
-                  child: ListView(
-                children: [
-                  ProfileTile(
-                      tileType: 0,
-                      tileTitle: "Kullanıcı Adı",
-                      tileDesc: "noxivirtus"),
-                  ProfileTile(
-                      tileType: 1,
-                      tileTitle: "E Posta",
-                      tileDesc: "mhmmd.bayraktar@gmail.com"),
-                  ProfileTile(
-                      tileType: 2,
-                      tileTitle: "Kullanıcı Türü",
-                      tileDesc: "Standart")
-                ],
-              )))
+                  child: FutureBuilder(
+                      future: getDataFromDatabase(),
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState != ConnectionState.done){
+                          return Text("");
+                        }
+                        else{
+                          return ListView(
+                            children: [
+                              ProfileTile(
+                                  tileType: 0,
+                                  tileTitle: "Kullanıcı Adı",
+                                  tileDesc: userName!),
+                              ProfileTile(
+                                  tileType: 1,
+                                  tileTitle: "E Posta",
+                                  tileDesc: mail!),
+                              ProfileTile(
+                                  tileType: 2,
+                                  tileTitle: "Kullanıcı Türü",
+                                  tileDesc: userType),
+                              ElevatedButton(
+                                onPressed: () => FirebaseAuth.instance.signOut(),
+                                child: Text('BU HESAPTAN ÇIKIŞ YAP'),
+                              ),
+                            ],
+                          );
+                        }
+
+                      },
+                  )))
         ],
       ),
     );

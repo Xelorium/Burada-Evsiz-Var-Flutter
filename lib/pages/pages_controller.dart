@@ -167,10 +167,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-      sayfadegistir() {
-      FunctionalTimer().pagePushTo(
-        context: context, screen: const MainScreen());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,8 +174,15 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(child: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot){
-            if(snapshot.hasData) {
-              return sayfadegistir();
+            assert(snapshot != null);
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Center(child: CircularProgressIndicator(),);
+            }
+            else if(snapshot.hasError){
+              return Center(child: Text('Bir şeyler ters gitti!'),);
+            }
+            else if(snapshot.hasData) {
+              return FeedContent();
             }
             else {
               return LoginContent();
@@ -187,21 +190,5 @@ class _LoginScreenState extends State<LoginScreen> {
           }
       )),
     );
-  }
-}
-
-
-
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return const FeedContent();
   }
 }

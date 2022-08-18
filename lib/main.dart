@@ -16,21 +16,25 @@ import 'package:firebase_core/firebase_core.dart';
   runApp(const BuradaEvsizVar());
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class BuradaEvsizVar extends StatelessWidget {
   const BuradaEvsizVar({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           initialRoute: 'splash',
           routes: {
             'splash': (context) => const SplashScreen(),
             'begin': (context) => const BeginScreen(),
             'login': (context) => const LoginScreen(),
-            'main': (context) => const MainScreen(),
           },
           title: 'Burada Evsiz Var',
           theme: ThemeData(
