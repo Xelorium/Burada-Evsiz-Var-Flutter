@@ -66,7 +66,7 @@ class _ProfileContentState extends State<ProfileContent> {
                             "https://www.resimupload.org/images/2022/08/08/74e15825-cb45-45ae-b2ee-a632cc0f05d6.jpg"),
                       ),
                     ),
-                    Text("Muhammed Bayraktar",
+                    Text("$name $surName",
                         style: TextStyle(color: Colors.white, fontSize: 16.sp)),
                   ],
                 )
