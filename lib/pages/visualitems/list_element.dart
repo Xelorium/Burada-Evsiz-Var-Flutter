@@ -1,5 +1,6 @@
 import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/pages/visualitems/listelement_detail.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
@@ -26,6 +27,35 @@ class ListElementCreator extends StatefulWidget {
 }
 
 class _ListElementCreatorState extends State<ListElementCreator> {
+  var uniqueId = "";
+  var name = "";
+  var surName = "";
+  var userName = "";
+  var mail = "";
+  var userType = "";
+  var pUrl = "";
+
+  late var date =
+      DateTime.fromMillisecondsSinceEpoch(int.parse(widget.date), isUtc: true);
+
+  Future getDataFromDatabase(String uID) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uID)
+        .get()
+        .then((snapshot) async {
+      if (snapshot.exists) {
+        uniqueId = snapshot.data()!["uid"];
+        name = snapshot.data()!["name"];
+        surName = snapshot.data()!["surName"];
+        mail = snapshot.data()!["email"];
+        userName = snapshot.data()!["userName"];
+        userType = snapshot.data()!["userType"];
+        pUrl = snapshot.data()!["pUrl"];
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -64,20 +94,29 @@ class _ListElementCreatorState extends State<ListElementCreator> {
                       widget.mapInfo.addressName,
                       textAlign: TextAlign.left,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.postOwner,
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
-                        ),
-                        Text(
-                          "${widget.date} saat önce",
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
-                        ),
-                      ],
+                    FutureBuilder(
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "$name $surName",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline),
+                              ),
+                              Text(
+                                "${date.day}.${date.month}.${date.year}",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                      future: getDataFromDatabase(widget.postOwner),
                     ),
                   ],
                 ),

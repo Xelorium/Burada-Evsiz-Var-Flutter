@@ -3,6 +3,7 @@ import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/curved_shape.dart';
 import 'package:burada_evsiz_var/utils/functional_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,15 +15,21 @@ class SplashContent extends StatefulWidget {
 }
 
 class _SplashContentState extends State<SplashContent> {
+  static bool isFirstOpen() {
+    final box = GetStorage();
+    return box.read("isLoggedIn") ?? false;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    bool isLoggedIn = false;
+    bool isLoggedIn = isFirstOpen();
 
     if (isLoggedIn) {
-      // FunctionalTimer().setTimerAndGo(isLoggedIn: isLoggedIn, context: context, screen: MainScreen());
+      FunctionalTimer().setTimerAndGo(
+          isLoggedIn: isLoggedIn, context: context, screen: LoginScreen());
     } else {
       FunctionalTimer().setTimerAndGo(
           isLoggedIn: isLoggedIn,

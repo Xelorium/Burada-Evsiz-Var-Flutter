@@ -5,6 +5,7 @@ import 'package:burada_evsiz_var/objects/map_info.dart';
 import 'package:burada_evsiz_var/pages/visualitems/show_image.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../objects/homelesses_two.dart';
+import '../../../objects/homelesses.dart';
 
 class AddHomelessContent extends StatefulWidget {
   const AddHomelessContent({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
 
   void _getFromCamera() async {
     final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.camera);
+        await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
 
     if (!mounted) return;
 
@@ -281,7 +282,7 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
   Future<void> addHomeless() async {
     showLoaderDialog(this.context);
 
-    var useruID = "ZUo2T6dncBbmgXqliEt18G5rNMD3";
+    final kullanici = FirebaseAuth.instance.currentUser!;
 
     // UploadTask? uploadTask;
     //
@@ -290,14 +291,14 @@ class _AddHomelessContentState extends State<AddHomelessContent> {
     // uploadTask = ref.putFile(imageFile!);
     // final snapshot =  uploadTask!.whenComplete(() => {});
 
-    HomelessTwo homeless = HomelessTwo(
+    HomelessThree homeless = HomelessThree(
         MapInfo(
                 selectedPlace.placeId.toString(),
                 selectedPlace.formattedAddress.toString(),
                 selectedPlace.geometry!.location.lat,
                 selectedPlace.geometry!.location.lng)
             .toMap(),
-        useruID.toString(),
+        kullanici.uid,
         DateTime.now().millisecondsSinceEpoch,
         doc.id,
         descriptionController.text,

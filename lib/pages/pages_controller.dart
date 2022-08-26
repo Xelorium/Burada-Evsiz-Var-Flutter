@@ -9,9 +9,9 @@ import 'package:coast/coast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'contents/main/content_feed.dart';
 
@@ -166,29 +166,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
+  static setLoggedIn(bool isLoggedIn) {
+    final box = GetStorage();
+    box.write("isLoggedIn", isLoggedIn);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: SafeArea(child: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot){
-            assert(snapshot != null);
-            if(snapshot.connectionState == ConnectionState.waiting){
-              return Center(child: CircularProgressIndicator(),);
-            }
-            else if(snapshot.hasError){
-              return Center(child: Text('Bir şeyler ters gitti!'),);
-            }
-            else if(snapshot.hasData) {
-              return FeedContent();
-            }
-            else {
-              return LoginContent();
-            }
-          }
-      )),
+    return Scaffold(
+      body: SafeArea(
+          child: StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                assert(snapshot != null);
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Bir şeyler ters gitti!'),
+                  );
+                } else if (snapshot.hasData) {
+                  setLoggedIn(true);
+                  return FeedContent();
+                } else {
+                  setLoggedIn(false);
+                  return LoginContent();
+                }
+              })),
     );
   }
 }

@@ -1,19 +1,22 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:burada_evsiz_var/objects/homelesses.dart';
-import 'package:burada_evsiz_var/objects/users.dart' hide User;
 import 'package:burada_evsiz_var/pages/contents/main/content_homeless_add.dart';
 import 'package:burada_evsiz_var/pages/contents/main/content_profile.dart';
 import 'package:burada_evsiz_var/pages/visualitems/list_element.dart';
 import 'package:burada_evsiz_var/pages/visualitems/post_card.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../objects/homelesses_two.dart';
+
 class FeedContent extends StatefulWidget {
-  const FeedContent({Key? key}) : super(key: key);
+  const FeedContent({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<FeedContent> createState() => _FeedContentState();
@@ -22,6 +25,11 @@ class FeedContent extends StatefulWidget {
 class _FeedContentState extends State<FeedContent> {
   final kullanici = FirebaseAuth.instance.currentUser!;
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -102,6 +110,7 @@ class _MainBodyContentState extends State<MainBodyContent> {
   bool _isVisible = false;
 
   late final TextEditingController _textController;
+  CollectionReference db = FirebaseFirestore.instance.collection('homelesses');
 
   @override
   void initState() {
@@ -115,9 +124,26 @@ class _MainBodyContentState extends State<MainBodyContent> {
     super.dispose();
   }
 
-  List<Homeless> posts = allPosts;
-  List<Homeless> homelesses = allHomelesses;
+  // List<HomelessTwo> posts = allPosts;
 
+  String searchText = "";
+
+  final _db = FirebaseFirestore.instance;
+
+  Stream<List<HomelessTwo>> homelessStream() {
+    try {
+      return _db.collection("homelesses").snapshots().map((homelesses) {
+        final List<HomelessTwo> notesFromFirestore = <HomelessTwo>[];
+        for (final DocumentSnapshot<Map<String, dynamic>> doc
+            in homelesses.docs) {
+          notesFromFirestore.add(HomelessTwo.fromDocumentSnapshot(doc: doc));
+        }
+        return notesFromFirestore;
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,37 +254,100 @@ class _MainBodyContentState extends State<MainBodyContent> {
           ),
         ),
         Expanded(
-          child: RefreshIndicator(
-              onRefresh: _refresh,
-              child: _selectedView == 0
-                  ? ListView.builder(
-                      itemCount: posts.length,
-                      itemBuilder: (context, index) {
-                        final post = posts[index];
-                        final user = FirebaseAuth.instance.currentUser!;
-                        return CreatePostCard(
-                            uId: "2",
-                            photoId: post.photoId,
-                            gonderiAciklamasi: post.desc,
-                            gonderiSaati: post.date,
-                            gonderiSahibi: user.email!);
-                      },
-                    )
-                  : ListView.builder(
-                      itemCount: homelesses.length,
-                      itemBuilder: (context, index) {
-                        final homeless = homelesses[index];
-                        final user = FirebaseAuth.instance.currentUser!;
-                        return Container();
-                          // ListElementCreator(
-                          //   uId: "1",
-                          //   desc: homeless.desc,
-                          //   photoId: homeless.photoId,
-                          //   mapInfo: homeless.address,
-                          //   postOwner: user.email!,
-                          //   date: homeless.date);
-                      })),
-        ),
+            child: RefreshIndicator(
+          onRefresh: _refresh,
+          child: _selectedView == 0
+              ? StreamBuilder<QuerySnapshot>(
+                  stream: db.snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            var item = snapshot.data?.docs[index];
+
+                            return CreatePostCard(
+                                gonderiAciklamasi: item!["description"],
+                                gonderiSaati: item["postDate"].toString(),
+                                gonderiSahibi: item["postOwner"],
+                                uId: item["postOwner"],
+                                photoId: item["photoId"]);
+                          });
+                    }
+                  })
+              : StreamBuilder<List<HomelessTwo>>(
+                  stream: homelessStream(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Text("No data"),
+                      );
+                    } else if (snapshot.hasData) {
+                      var documents = snapshot.data;
+
+                      if (searchText.length > 0) {
+                        documents = documents?.where((element) {
+                          return element.address.addressName
+                              .toString()
+                              .toLowerCase()
+                              .contains(searchText.toLowerCase());
+                        }).toList();
+                      }
+
+                      return ListView.builder(
+                          itemCount: documents!.length,
+                          itemBuilder: (context, index) {
+                            HomelessTwo currentModel = documents![index];
+
+                            return ListElementCreator(
+                                postOwner: currentModel.postOwner,
+                                date: currentModel.date.toString(),
+                                desc: currentModel.desc,
+                                photoId: currentModel.photoId,
+                                uId: currentModel.uID,
+                                mapInfo: currentModel.address);
+                          });
+                    } else {
+                      return Center(
+                        child: Text("Error"),
+                      );
+                    }
+                  }),
+        )
+
+            // ListView.builder(
+            //         itemCount: posts.length,
+            //         itemBuilder: (context, index) {
+            //           final post = posts[index];
+            //           final user = FirebaseAuth.instance.currentUser!;
+            //           return CreatePostCard(
+            //               uId: "2",
+            //               photoId: post.photoId,
+            //               gonderiAciklamasi: post.desc,
+            //               gonderiSaati: post.date,
+            //               gonderiSahibi: user.email!);
+            //         },
+            //       )
+            //     : ListView.builder(
+            //         itemCount: homelesses.length,
+            //         itemBuilder: (context, index) {
+            //           final homeless = homelesses[index];
+            //           final user = FirebaseAuth.instance.currentUser!;
+            //           return Container();
+            //           // ListElementCreator(
+            //           //   uId: "1",
+            //           //   desc: homeless.desc,
+            //           //   photoId: homeless.photoId,
+            //           //   mapInfo: homeless.address,
+            //           //   postOwner: user.email!,
+            //           //   date: homeless.date);
+            //         })
+
+            ),
       ],
     );
   }
@@ -268,14 +357,9 @@ class _MainBodyContentState extends State<MainBodyContent> {
   }
 
   void searchPost(String query) {
-    final results = allHomelesses.where((homeless) {
-      final postAddress = homeless.address.toLowerCase();
-      final input = query.toLowerCase();
-
-      return postAddress.contains(input);
-    }).toList();
-
-    setState(() => homelesses = results);
+    setState(() {
+      searchText = query;
+    });
   }
 
   void showToast() {

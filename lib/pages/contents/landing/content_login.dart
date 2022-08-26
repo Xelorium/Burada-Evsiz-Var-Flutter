@@ -1,12 +1,8 @@
-import 'package:burada_evsiz_var/main.dart';
-import 'package:burada_evsiz_var/pages/pages_controller.dart';
 import 'package:burada_evsiz_var/utils/color_palette.dart';
 import 'package:burada_evsiz_var/utils/curved_shape.dart';
-import 'package:burada_evsiz_var/utils/functional_timer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class LoginContent extends StatefulWidget {
   const LoginContent({Key? key}) : super(key: key);
@@ -20,14 +16,57 @@ class _LoginContentState extends State<LoginContent> {
   final passwordController = TextEditingController();
   late bool _passwordVisible;
 
-  Future girisYap() async {
+  showLoaderDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 7),
+              child: Text("Giriş yapılıyor....")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: mailController.text.trim(),
-          password: passwordController.text.trim()
-      );
+  Future<void> _showMyDialog(Object err) async {
+    return showDialog<void>(
+      context: this.context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(err.toString()),
+          content: SingleChildScrollView(
+              child: Icon(
+            Icons.error,
+            color: Colors.red,
+            size: 10.h,
+          )),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Tamam'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-
+  Future<void> girisYap() async {
+    showLoaderDialog(context);
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: mailController.text.trim(),
+        password: passwordController.text.trim());
   }
 
   @override
@@ -117,8 +156,16 @@ class _LoginContentState extends State<LoginContent> {
                         borderRadius: BorderRadius.circular(0), // <-- Radius
                       ),
                     ),
-                    onPressed: girisYap,
-                       /* () {
+                    onPressed: () async {
+                      try {
+                        await girisYap();
+                        Navigator.pop(this.context);
+                      } catch (error) {
+                        Navigator.pop(context);
+                        await _showMyDialog(error);
+                      }
+                    },
+                    /* () {
                       FunctionalTimer().pagePushTo(
                           context: context, screen: const MainScreen());
                     } */
@@ -168,9 +215,6 @@ class _LoginContentState extends State<LoginContent> {
         ),
       ],
     );
-
-
-
 
     //   Stack(
     //   children: [
