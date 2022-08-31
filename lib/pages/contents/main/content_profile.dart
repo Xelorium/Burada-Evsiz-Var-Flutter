@@ -66,8 +66,18 @@ class _ProfileContentState extends State<ProfileContent> {
                             "https://www.resimupload.org/images/2022/08/08/74e15825-cb45-45ae-b2ee-a632cc0f05d6.jpg"),
                       ),
                     ),
-                    Text("$name $surName",
-                        style: TextStyle(color: Colors.white, fontSize: 16.sp)),
+                    FutureBuilder(
+                      future: getDataFromDatabase(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return Text("Yükleniyor");
+                        } else {
+                          return Text("$name $surName",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp));
+                        }
+                      },
+                    ),
                   ],
                 )
               ],
@@ -77,36 +87,32 @@ class _ProfileContentState extends State<ProfileContent> {
               flex: 6,
               child: Container(
                   child: FutureBuilder(
-                      future: getDataFromDatabase(),
-                      builder: (context, snapshot) {
-                        if(snapshot.connectionState != ConnectionState.done){
-                          return Text("");
-                        }
-                        else{
-                          return ListView(
-                            children: [
-                              ProfileTile(
-                                  tileType: 0,
-                                  tileTitle: "Kullanıcı Adı",
-                                  tileDesc: userName),
-                              ProfileTile(
-                                  tileType: 1,
-                                  tileTitle: "E Posta",
-                                  tileDesc: mail),
-                              ProfileTile(
-                                  tileType: 2,
-                                  tileTitle: "Kullanıcı Türü",
-                                  tileDesc: userType),
-                              ElevatedButton(
-                                onPressed: () => FirebaseAuth.instance.signOut(),
-                                child: Text('BU HESAPTAN ÇIKIŞ YAP'),
-                              ),
-                            ],
-                          );
-                        }
-
-                      },
-                  )))
+                future: getDataFromDatabase(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Text("");
+                  } else {
+                    return ListView(
+                      children: [
+                        ProfileTile(
+                            tileType: 0,
+                            tileTitle: "Kullanıcı Adı",
+                            tileDesc: userName),
+                        ProfileTile(
+                            tileType: 1, tileTitle: "E Posta", tileDesc: mail),
+                        ProfileTile(
+                            tileType: 2,
+                            tileTitle: "Kullanıcı Türü",
+                            tileDesc: userType),
+                        ElevatedButton(
+                          onPressed: () => FirebaseAuth.instance.signOut(),
+                          child: Text('BU HESAPTAN ÇIKIŞ YAP'),
+                        ),
+                      ],
+                    );
+                  }
+                },
+              )))
         ],
       ),
     );
